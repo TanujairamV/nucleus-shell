@@ -261,5 +261,5 @@ Singleton {
         }
     }
 
-    syntaxHighlightingTheme: root.m3colors.darkmode ? '#f1ebeb' : "#141333"
+    syntaxHighlightingTheme: Config.options.appearance.theme === "dark" ? '#f1ebeb' : "#141333"
 }

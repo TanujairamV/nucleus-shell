@@ -21,8 +21,8 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: 0.4
         anchors.horizontalCenter: parent.horizontalCenter       
-        font.pixelSize: 22
-        text: "power_settings_new"
+        iconSize: 22
+        icon: "power_settings_new"
     }
 
     MouseArea {

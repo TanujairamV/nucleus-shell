@@ -33,15 +33,24 @@ BarModule {
             // --- Network --- /
             MaterialSymbol {
                 id: wifi
-                text: "network_wifi_3_bar"
-                font.pixelSize: Appearance.font.size.huge 
+                icon: {
+                    const s = Network.signalStrength;
+                    if (s > 80)
+                        return "network_wifi_3_bar";
+                    if (s > 60)
+                        return "network_wifi_2_bar";
+                    if (s > 40)
+                        return "network_wifi_1_bar";
+                    return "network_wifi_1_bar";
+                }
+                iconSize: Appearance.font.size.huge 
             }
             // --- Bluetooth ---
 
             MaterialSymbol {
                 id: btIcon
-                text: "bluetooth"
-                font.pixelSize: Appearance.font.size.huge
+                icon: "bluetooth"
+                iconSize: Appearance.font.size.huge
             }
         }
 

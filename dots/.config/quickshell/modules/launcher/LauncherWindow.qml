@@ -99,7 +99,7 @@ PanelWindow {
 
     IpcHandler {
         target: "launcher"
-        function toggleVisible() {
+        function toggle() {
             toggleLauncher()
         }
     }

@@ -50,8 +50,8 @@ BarModule {
                 id: playPauseIcon
                 anchors.centerIn: parent
                 anchors.verticalCenterOffset: -0.6
-                font.pixelSize: 18
-                text: row.isPlaying ? "pause" : "play_arrow"
+                iconSize: 18
+                icon: row.isPlaying ? "pause" : "play_arrow"
             }
 
             MouseArea {

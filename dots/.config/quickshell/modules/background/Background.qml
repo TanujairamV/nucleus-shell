@@ -130,7 +130,7 @@ Scope {
 
             IpcHandler {
                 target: "background"
-                function changeBackground() {
+                function change() {
                     wallpaperProc.running = true
                 }
             }

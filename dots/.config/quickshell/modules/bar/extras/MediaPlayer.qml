@@ -89,7 +89,7 @@ PanelWindow {
 
         anchors {
             right: parent.right
-            rightMargin: Config.options.global.borderEnabled ? Appearance.margin.tiny + 2 : 0
+            rightMargin: Config.options.background.borderEnabled ? Appearance.margin.tiny + 2 : 0
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
         }

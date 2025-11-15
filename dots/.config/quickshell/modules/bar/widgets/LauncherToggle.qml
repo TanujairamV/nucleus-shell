@@ -21,8 +21,8 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: 0.4
         anchors.horizontalCenter: parent.horizontalCenter       
-        font.pixelSize: 22
-        text: Config.options.bar.launcherToggleSymbol
+        iconSize: 22
+        icon: Config.options.bar.launcherToggleSymbol
     }
 
     MouseArea {

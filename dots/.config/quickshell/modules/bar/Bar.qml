@@ -1,8 +1,8 @@
 import qs.core.appearance
 import qs.core.config
 import qs.common.widgets
-import qs.modules.bar.content
-import qs.modules.bar.contentWidgets
+import qs.modules.bar.widgets
+import qs.modules.bar.extras
 import QtQuick
 import Quickshell
 import QtQuick.Layouts
@@ -56,9 +56,9 @@ Scope {
                     }
                     spacing: 4
 
-                    LauncherToggle{}   
-                    Workspaces{}    
+                    LauncherToggle{}      
                     UserHostname{}
+                    Workspaces{} 
                     Network{}
                     PowerMenuToggle{}
         
@@ -81,10 +81,8 @@ Scope {
                     spacing: 8
                     anchors.verticalCenter: parent.verticalCenter
 
-                    //Glyph{}
                     ActiveTopLevel{}
                     Clock{}
-                    
                     
                 }
 

@@ -217,7 +217,7 @@ PanelWindow {
 
     IpcHandler {
         target: "powerMenu"
-        function toggleVisible() {
+        function toggle() {
             toggleMenu()
         }
     }

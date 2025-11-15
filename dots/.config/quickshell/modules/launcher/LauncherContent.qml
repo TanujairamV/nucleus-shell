@@ -141,8 +141,8 @@ Item {
             Item { Layout.fillWidth: true }
 
             MaterialSymbol {
-                text: ""
-                font.pixelSize: Appearance.font.size.icon.large
+                icon: ""
+                iconSize: Appearance.font.size.icon.large
                 opacity: 0.8
 
                 MouseArea {
@@ -170,8 +170,8 @@ Item {
                 spacing: 8
 
                 MaterialSymbol {
-                    text: ""
-                    font.pixelSize: 18
+                    icon: ""
+                    iconSize: 18
                     Layout.alignment: Qt.AlignVCenter
                     y: 2
                 }

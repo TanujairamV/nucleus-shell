@@ -38,7 +38,7 @@ BarModule {
 
             MaterialSymbol {
                 id: wifiIcon
-                text: {
+                icon: {
                     const s = Network.signalStrength;
                     if (s > 80)
                         return "network_wifi_3_bar";

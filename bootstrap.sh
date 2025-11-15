@@ -27,6 +27,7 @@ packages=(
     "hyprpaper"
     "hyprlock"
     "firefox"
+    "inetutils"
     "pywalfox"
     "ttf-font-awesome"
     "vim"
