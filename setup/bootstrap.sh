@@ -148,6 +148,4 @@ _installPackages "${packages[@]}"
 # ----------------------------------------------------------
 
 echo ":: All dependencies installed successfully."
-echo ":: Make sure to switch your default shell to fish by running: chsh -s /usr/bin/fish"
-echo ":: You can now reboot and log into hyprland to use aelyxshell!"
 
