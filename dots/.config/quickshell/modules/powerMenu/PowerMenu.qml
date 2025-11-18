@@ -143,6 +143,8 @@ PanelWindow {
         anchors {
             horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
+            topMargin: 8 
+            bottomMargin: 8
         }
 
         states: [
@@ -174,7 +176,7 @@ PanelWindow {
             spacing: 14
             anchors.verticalCenter: parent.verticalCenter  
             anchors.horizontalCenter: parent.horizontalCenter   
-            anchors.verticalCenterOffset: Config.options.bar.position === 1 ? 5 : -5
+            anchors.verticalCenterOffset: Config.options.bar.position === 1 ? 5 : 5
             
 
             PowerButton {

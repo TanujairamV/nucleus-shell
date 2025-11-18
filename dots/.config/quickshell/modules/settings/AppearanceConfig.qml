@@ -99,15 +99,11 @@ ContentMenu {
 
                         onClicked: {
                             Config.setNestedValue("global.colorScheme", modelData)
+                            Quickshell.execDetached(["qs", "ipc", "call", "global", "regenColors"])
                         }
                     }
                 }
             }
-        }
-
-        InfoCard {
-            title: "Note:"
-            description: "Colors schemes will not take effect in real time. New schemes will be auto generated when the wallpaper is changed."
         }
     }
 }
