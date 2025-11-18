@@ -22,11 +22,6 @@ A compact, performance-oriented dotfiles collection implemented with QuickShell 
 
 aelyx-shell is a set of shell dotfiles and utility scripts authored in QuickShell. The collection emphasizes:
 
-- Modularity: split, documented modules for aliases, functions, prompts, and environment.
-- Predictability: explicit, reproducible installation and upgrade paths.
-- Performance: lightweight helpers and minimal startup overhead.
-- Portability: easy to adapt to different distributions and terminal environments.
-
 Target users: developers and linux users who prefer script-first shell configurations.
 
 ---
@@ -36,16 +31,6 @@ Target users: developers and linux users who prefer script-first shell configura
 | Desktop                                          | Launcher                                           |
 | ------------------------------------------------ | -------------------------------------------------- |
 | ![Widgets](previews/1.png) | ![Launcher](previews/2.png) |
-
----
-
-## Features
-
-- Core QuickShell modules for aliases, environment variables, and core utilities
-- Prompt and completion integrations (configurable)
-- Optional platform-specific hooks (in work)
-- Minimal external dependencies
-- Clear file layout for straightforward customization
 
 ---
 
@@ -90,7 +75,7 @@ Notes:
 
 ## Configuration and customization
 
-- Enable or disable modules by editing `~/.config/aelyxshell/config.json` or configuring the shell.
+- Configure the shell by editing `~/.config/aelyxshell/config.json` or using the builtin settings app..
 - Prompt and completion settings are separated into dedicated modules for easy replacement.
 
 ---
@@ -113,19 +98,16 @@ Notes:
 
 ---
 
-## Roadmap
+## To-Do
 
-- Add declarative per-host package manifests
-- Optional systemd user services for background helpers
-- Official example configurations for major distributions
-- CI checks for syntax and module import errors
+- Make the config more accessible by making a install.sh script
 
 ---
 
 ## Contributing
 
 Contributions are accepted following the repository's contribution guidelines. When contributing:
-- Open concise issues with reproduction steps.
+- Open concise issues after checking that it is a bug in the config.
 - Submit focused PRs with clear descriptions and tests where applicable.
 - Respect code structure and naming conventions used in `dots/`.
 
@@ -142,8 +124,8 @@ Refer to GITHUB CONTRIBUTING for details.
 
 ## Acknowledgments
 
-- QuickShell and its contributors
-- Projects and patterns that inspired the modular layout and bootstrap approach
+- QuickShell and its contributors/developers
+- Hyprland and its developers/contributors
 
 ---
 
