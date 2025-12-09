@@ -123,7 +123,8 @@ echo -e "${NONE}"
 # ----------------------------------------------------------
 
 read -p "Do you want to start installing dependencies? (Y/n): " yn
-if [[ ! $yn =~ ^[Yy]$ ]]; then
+
+if [[ -n "$yn" && ! $yn =~ ^[Yy]$ ]]; then
     echo ":: Installation canceled."
     exit 0
 fi
