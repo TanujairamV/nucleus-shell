@@ -15,6 +15,8 @@ PanelWindow {
     id: launcher
     WlrLayershell.layer: WlrLayer.Top
     visible: Shell.ready && GlobalStates.launcherOpen
+    WlrLayershell.keyboardFocus: GlobalStates.launcherOpen
+
 
     color: "transparent"
     exclusiveZone: 0
