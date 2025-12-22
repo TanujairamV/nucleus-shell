@@ -8,7 +8,7 @@ Item {
 
     property bool launcherOpen: false
     property bool powerMenuOpen: false
-    property bool controlCenterOpen: false
+    property bool sidebarRightOpen: false
     property bool mediaPlayerOpen: false
     property bool windowOverviewOpen: false
     property bool osdNeeded: false

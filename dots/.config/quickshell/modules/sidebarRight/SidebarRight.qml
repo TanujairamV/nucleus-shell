@@ -2,7 +2,7 @@ import qs.settings
 import qs.widgets
 import qs.services
 import qs.functions
-import qs.modules.controlCenter.widgets
+import qs.modules.sidebarRight.widgets
 import QtQuick
 import Quickshell
 import QtQuick.Layouts
@@ -13,9 +13,9 @@ import Quickshell.Services.Pipewire
 import Qt5Compat.GraphicalEffects
 
 PanelWindow {
-    id: controlCenter
+    id: sidebarRight
     WlrLayershell.layer: WlrLayer.Top
-    visible: Shell.ready && GlobalStates.controlCenterOpen
+    visible: Shell.ready && GlobalStates.sidebarRightOpen
 
     color: "transparent"
     exclusiveZone: 0
@@ -24,9 +24,9 @@ PanelWindow {
     property var monitor: Hyprland.focusedMonitor
 
 
-    property real controlCenterWidth: Shell.flags.bar.modules.bluetoothWifi.position === "center" ? 520 : 500
+    property real sidebarRightWidth: 500
 
-    implicitWidth: controlCenterWidth
+    implicitWidth: sidebarRightWidth
 
     anchors {
         top: true
@@ -53,7 +53,7 @@ PanelWindow {
         id: container
         color: Appearance.m3colors.m3background
         radius: Appearance.rounding.normal
-        implicitWidth: controlCenter.controlCenterWidth
+        implicitWidth: sidebarRight.sidebarRightWidth
 
         anchors.fill: parent
 
@@ -128,7 +128,7 @@ PanelWindow {
 
                                 onButtonClicked: {
                                     Quickshell.execDetached(["hyprpicker"])
-                                    GlobalStates.controlCenterOpen = false;
+                                    GlobalStates.sidebarRightOpen = false;
                                 }
                             }
                         }
@@ -170,7 +170,7 @@ PanelWindow {
                                 iconSize: Appearance.font.size.hugeass + 2
 
                                 onButtonClicked: {
-                                    GlobalStates.controlCenterOpen = false
+                                    GlobalStates.sidebarRightOpen = false
                                     GlobalStates.visible_settingsMenu = true
                                 }
                             }
@@ -192,7 +192,7 @@ PanelWindow {
                                 iconSize: Appearance.font.size.hugeass + 2
 
                                 onButtonClicked: {
-                                    GlobalStates.controlCenterOpen = false
+                                    GlobalStates.sidebarRightOpen = false
                                     GlobalStates.powerMenuOpen = true
                                 }
                             }
@@ -296,26 +296,26 @@ PanelWindow {
     }
 
     // --- Toggle logic ---
-    function togglecontrolCenter() {
-        const newState = !GlobalStates.controlCenterOpen
-        GlobalStates.controlCenterOpen = newState
+    function togglesidebarRight() {
+        const newState = !GlobalStates.sidebarRightOpen
+        GlobalStates.sidebarRightOpen = newState
         if (newState)
-            controlCenter.forceActiveFocus()
+            sidebarRight.forceActiveFocus()
         else
-            controlCenter.focus = false
+            sidebarRight.focus = false
     }
 
     IpcHandler {
-        target: "controlCenter"
+        target: "sidebarRight"
         function toggle() {
-            togglecontrolCenter()
+            togglesidebarRight()
         }
     }
 
     Connections {
         target: Hyprland
         function onFocusedMonitorChanged() {
-            controlCenter.monitor = Hyprland.focusedMonitor
+            sidebarRight.monitor = Hyprland.focusedMonitor
         }
     }
 }

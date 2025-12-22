@@ -1,21 +1,22 @@
 import qs.settings
 import qs.widgets
 import qs.services
+import qs.functions
 import QtQuick
-import QtQuick.Layouts
-import QtQuick.Controls
 import Quickshell
+import QtQuick.Layouts
 import Quickshell.Wayland
 import Quickshell.Io
+import QtQuick.Controls
+import Quickshell.Services.Pipewire
+import Qt5Compat.GraphicalEffects
 
 PanelWindow {
     id: launcher
     WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.keyboardFocus: GlobalStates.launcherOpen
-    visible: Shell.ready
+    visible: Shell.ready && GlobalStates.launcherOpen
 
     color: "transparent"
-    focusable: true
     exclusiveZone: 0
 
     property var monitor: Hyprland.focusedMonitor
@@ -23,84 +24,52 @@ PanelWindow {
     property real screenH: monitor ? monitor.height : 0
     property real scale: monitor ? monitor.scale : 1
 
-    property real launcherWidth: screenW * 0.33 / scale
-    property real launcherHeight: screenH * 0.69 / scale
+    property real launcherWidth: screenW * 0.29 / scale
+    property real launcherHeight: screenH * 0.66 / scale
 
     implicitWidth: launcherWidth
     implicitHeight: launcherHeight
 
     anchors {
         top: true
-        left: true
-        right: true
-        bottom: true
+        right: false 
+        left: false
+        bottom: false
     }
 
-    component Anim: NumberAnimation {
-        duration: 400
-        easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.standard
+    margins {
+        top: monitor.height / 8
+        bottom: monitor.height / 8
+        left: Appearance.margin.large
+        right: Appearance.margin.large
     }
 
-    mask: Region {
-        item: overlay
-        intersection: GlobalStates.launcherOpen ? Intersection.Combine : Intersection.Xor
-    }
 
-    Rectangle {
-        id: overlay
-        anchors.fill: parent
-        color: "transparent"
-
-        Behavior on opacity { Anim {} }
-
-        MouseArea {
-            anchors.fill: parent
-            enabled: GlobalStates.launcherOpen
-            onClicked: {
-                container.searchQuery = ""
-                GlobalStates.launcherOpen = false
-            }
-        }
-    }
-
-    MergedEdgeRect { 
+    StyledRect {
         id: container
-        visible: implicitHeight > 0
         color: Appearance.m3colors.m3background
-        cornerRadius: Appearance.rounding.verylarge
-        implicitWidth: GlobalStates.launcherOpen ? launcher.launcherWidth : 0
-        implicitHeight: GlobalStates.launcherOpen ? launcher.launcherHeight : 0
-        opacity: GlobalStates.launcherOpen ? 1 : 0
+        radius: Appearance.rounding.verylarge
+        implicitWidth: launcher.launcherWidth
 
-        Behavior on implicitHeight { Anim {} }
-        Behavior on implicitWidth { Anim {} }
-        Behavior on opacity { Anim {} }
+        anchors.fill: parent
 
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
-        }
-
-        content: LauncherContent {}
+        LauncherContent {}
+        
     }
 
-    // Ah let me guess you're probably thinking why did
-    // I use mergededgerect even though its not merged its just looks better than rect.
-
-
-    function toggleLauncher() {
-        GlobalStates.launcherOpen = !GlobalStates.launcherOpen
+    // --- Toggle logic ---
+    function togglelauncher() {
+        const newState = !GlobalStates.launcherOpen
+        GlobalStates.launcherOpen = newState
     }
 
     IpcHandler {
         target: "launcher"
         function toggle() {
-            toggleLauncher()
+            togglelauncher()
         }
     }
 
-    // --- Update when Hyprland changes the focused monitor ---
     Connections {
         target: Hyprland
         function onFocusedMonitorChanged() {

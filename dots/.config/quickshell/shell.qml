@@ -4,7 +4,7 @@ import qs.modules.background
 import qs.modules.launcher
 import qs.modules.overlays
 import qs.modules.notifications
-import qs.modules.controlCenter
+import qs.modules.sidebarRight
 import qs.modules.settings
 import qs.modules.powerMenu
 
@@ -18,7 +18,7 @@ ShellRoot {
     Launcher{}
     Overlays{}
     Notification{}
-    ControlCenter{}
+    SidebarRight{}
     Settings{}
     PowerMenu{}
 }

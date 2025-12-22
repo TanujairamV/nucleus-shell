@@ -19,6 +19,8 @@ Item {
         }
     }
 
+    anchors.margins: 20
+
     property int selectedIndex: -1
     property string searchQuery: ""
 
