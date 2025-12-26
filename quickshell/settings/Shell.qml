@@ -98,10 +98,16 @@ Singleton {
                 property string colorScheme: "scheme-rainbow"
             }
 
+            property JsonObject shellInfo: JsonObject {
+                property string supposedQsVersion: "0.2.1"
+                property string version: "1.0.0"
+            }
+
             property JsonObject misc: JsonObject {
                 property bool notificationDaemonEnabled: true
                 property bool dndEnabled: false
                 property url pfp: StandardPaths.writableLocation(StandardPaths.HomeLocation) + "/.local/share/aelyx/defaults/pfp.png"
+                property bool openSidebarsOnHovered: true
             }
 
             property JsonObject background: JsonObject {

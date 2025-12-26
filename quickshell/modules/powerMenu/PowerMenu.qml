@@ -1,147 +1,162 @@
-import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
-import Quickshell.Services.Pipewire
-import Quickshell.Wayland
-import qs.functions
-import qs.services
-import qs.settings
+import QtCore
 import qs.widgets
+import qs.settings
+import Quickshell
 
-PanelWindow {
-    id: powerMenu
+Item {
+    id: root
+    anchors.fill: parent
 
-    property var monitor: Hyprland.focusedMonitor
-    property real screenW: monitor ? monitor.width : 0
-    property real screenH: monitor ? monitor.height : 0
-    property real scale: monitor ? monitor.scale : 1
-    property real powerMenuWidth: screenW * 0.25/ scale
-    property real powerMenuHeight: screenH * 0.30 / scale
+    /* ------------------------------
+       Pomodoro state
+    ------------------------------ */
+    property int workDuration: 25 * 60
+    property int breakDuration: 5 * 60
+    property int remaining: workDuration
+    property bool running: false
+    property bool onBreak: false
 
-    // --- Toggle logic ---
-    function togglepowerMenu() {
-        const newState = !GlobalStates.powerMenuOpen;
-        GlobalStates.powerMenuOpen = newState;
-        if (newState)
-            powerMenu.forceActiveFocus();
-        else
-            powerMenu.focus = false;
+    Timer {
+        interval: 1000
+        repeat: true
+        running: root.running
+        onTriggered: {
+            if (remaining > 0) {
+                remaining--
+            } else {
+                onBreak = !onBreak
+                remaining = onBreak ? breakDuration : workDuration
+            }
+        }
     }
 
-    WlrLayershell.layer: WlrLayer.Top
-    visible: Shell.ready && GlobalStates.powerMenuOpen
-    color: "transparent"
-    exclusiveZone: 0
-    implicitWidth: powerMenuWidth
-    implicitHeight: powerMenuHeight
-
-    anchors {
-        top: true
-        right: false
-        left: false
-        bottom: false
+    function formatTime(sec) {
+        const m = Math.floor(sec / 60)
+        const s = sec % 60
+        return m + ":" + (s < 10 ? "0" + s : s)
     }
 
-    margins {
-        top: 20
-        bottom: 20
-        left: Appearance.margin.large
-        right: Appearance.margin.large
-    }
-
-    StyledRect {
-        id: container
-
-        color: Appearance.m3colors.m3background
-        radius: Appearance.rounding.verylarge
-        implicitWidth: powerMenu.powerMenuWidth
+    ColumnLayout {
         anchors.fill: parent
+        spacing: Appearance.margin.large
 
-        Item {
-            id: content
+        /* Pomodoro */
+        StyledRect {
+            Layout.fillWidth: true
+            Layout.preferredHeight: 110
+            radius: Appearance.rounding.normal
+            color: Appearance.m3colors.m3surfaceContainer
 
-            anchors.margins: 12
-            anchors.topMargin: 16
-            anchors.leftMargin: 18
+            Column {
+                anchors.centerIn: parent
+                spacing: 8
 
+                StyledText {
+                    text: onBreak ? "Break" : "Focus"
+                    font.pixelSize: Appearance.font.size.large
+                }
+
+                StyledText {
+                    text: formatTime(remaining)
+                    font.pixelSize: Appearance.font.size.huge
+                    font.weight: Font.Bold
+                }
+
+                Row {
+                    spacing: 12
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    Button {
+                        text: running ? "Pause" : "Start"
+                        onClicked: running = !running
+                    }
+
+                    Button {
+                        text: "Reset"
+                        onClicked: {
+                            running = false
+                            onBreak = false
+                            remaining = workDuration
+                        }
+                    }
+                }
+            }
+        }
+
+        /* Kanban */
+        RowLayout {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            spacing: Appearance.margin.normal
+
+            KanbanColumn { title: "Todo" }
+            KanbanColumn { title: "Doing" }
+            KanbanColumn { title: "Done" }
+        }
+    }
+
+    /* ==============================
+       INLINE COMPONENT (VALID)
+    ============================== */
+    component KanbanColumn: StyledRect {
+        required property string title
+
+        Layout.fillWidth: true
+        Layout.fillHeight: true
+        radius: Appearance.rounding.normal
+        color: Appearance.m3colors.m3surfaceContainer
+
+        ListModel { id: taskModel }
+
+        ColumnLayout {
             anchors.fill: parent
+            spacing: Appearance.margin.small
 
-            Grid {
-                columns: 3
-                rows: 3
-                rowSpacing: 10
-                columnSpacing: 10
-                anchors.fill: parent
-
-                PowerMenuButton {
-                    buttonIcon: "power_settings_new"
-                    onClicked: Quickshell.execDetached(["poweroff"])
-                }
-
-                PowerMenuButton {
-                    buttonIcon: "logout"
-                    onClicked: Quickshell.execcDetached(["hyprctl", "dispatch", "exit"])
-                }
-
-                PowerMenuButton {
-                    buttonIcon: "sleep"
-                    onClicked: Quickshell.execDetached(["systemctl", "suspend"])
-                }
-
-                PowerMenuButton {
-                    buttonIcon: "lock"
-                    onClicked: Quickshell.execDetached(["hyprlock"])
-                }
-
-                PowerMenuButton {
-                    buttonIcon: "restart_alt"
-                    onClicked: Quickshell.execDetached(["reboot"])
-                }
-
-                PowerMenuButton {
-                    buttonIcon: "light_off"
-                    onClicked: Quickshell.execDetached(["systemctl", "hibernate"])
-                }
-
+            StyledText {
+                text: title
+                font.pixelSize: Appearance.font.size.large
+                font.weight: Font.Medium
+                Layout.alignment: Qt.AlignHCenter
             }
 
-            component Anim: NumberAnimation {
-                duration: 400
-                easing.type: Easing.BezierSpline
-                easing.bezierCurve: Appearance.animation.curves.standard
+            ListView {
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                model: taskModel
+                spacing: 8
+                clip: true
+
+                delegate: StyledRect {
+                    width: ListView.view.width
+                    height: 44
+                    radius: Appearance.rounding.small
+                    color: Appearance.m3colors.m3surfaceContainerLow
+
+                    StyledText {
+                        anchors.centerIn: parent
+                        text: model.text
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: taskModel.remove(index)
+                        cursorShape: Qt.PointingHandCursor
+                    }
+                }
             }
 
+            TextField {
+                Layout.fillWidth: true
+                placeholderText: "Add task…"
+                onAccepted: {
+                    if (!text.length) return
+                    taskModel.append({ text })
+                    text = ""
+                }
+            }
         }
-
     }
-
-    IpcHandler {
-        function toggle() {
-            togglepowerMenu();
-        }
-
-        target: "powerMenu"
-    }
-
-    Connections {
-        function onFocusedMonitorChanged() {
-            powerMenu.monitor = Hyprland.focusedMonitor;
-        }
-
-        target: Hyprland
-    }
-
-    component PowerMenuButton: StyledButton {
-        property string buttonIcon
-
-        icon: buttonIcon
-        icon_size: 50
-        width: powerMenu.implicitWidth / 3.4
-        height: powerMenu.implicitHeight / 2.3
-        radius: beingHovered ? Appearance.rounding.verylarge + 40 : Appearance.rounding.verylarge
-    }
-
 }

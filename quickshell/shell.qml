@@ -5,6 +5,7 @@ import qs.modules.launcher
 import qs.modules.overlays
 import qs.modules.notifications
 import qs.modules.sidebarRight
+import qs.modules.sidebarLeft
 import qs.modules.settings
 import qs.modules.powerMenu
 
@@ -19,6 +20,7 @@ ShellRoot {
     Overlays{}
     Notification{}
     SidebarRight{}
+    SidebarLeft{}
     Settings{}
     PowerMenu{}
 }

@@ -55,6 +55,10 @@ BarModule {
                     sink.volume = Math.max(sink.volume - step, 0)
                 }
             }
+
+            onClicked: {
+                GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen;
+            }
         }
     }
 }

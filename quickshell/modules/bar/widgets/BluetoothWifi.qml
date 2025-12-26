@@ -55,7 +55,7 @@ BarModule {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen
+                //GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen
             }
         }
     }

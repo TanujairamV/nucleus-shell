@@ -171,6 +171,6 @@ Item {
         }
     }
 
-    Volume {}
-    Brightness {}
+    RControl {}
+    LControl {}
 }
