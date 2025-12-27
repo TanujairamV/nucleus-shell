@@ -8,6 +8,7 @@ import qs.modules.sidebarRight
 import qs.modules.sidebarLeft
 import qs.modules.settings
 import qs.modules.powerMenu
+import qs.modules.welcomePage
 
 import QtQuick 
 import Quickshell  
@@ -23,4 +24,5 @@ ShellRoot {
     SidebarLeft{}
     Settings{}
     PowerMenu{}
+    FirstTime{}
 }

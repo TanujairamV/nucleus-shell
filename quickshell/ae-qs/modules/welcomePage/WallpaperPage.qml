@@ -9,9 +9,8 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 
 ContentMenu {
-    title: "Wallpaper"
-    description: "Manage your wallpapers"
-
+    title: ""
+    
     component Anim: NumberAnimation {
         duration: 400
         easing.type: Easing.BezierSpline

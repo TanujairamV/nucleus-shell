@@ -48,6 +48,7 @@ Scope {
                 { icon: "toolbar", label: "Bar", page: 1},
                 { icon: "wallpaper", label: "Wallpapers", page: 2},
                 { icon: "build", label: "Misc", page: 3},
+
             ]
 
             Component.onCompleted: settingsWindow = root
@@ -194,9 +195,9 @@ Scope {
                     currentIndex: root.selectedIndex
                     
                     QuickSettings { }
-                    Interface { }
+                    BarConfig { }
                     Wallpaper { }
-                    MiscSettings { }
+                    MiscConfig { }
                 }
             }
         }
