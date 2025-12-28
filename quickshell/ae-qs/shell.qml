@@ -8,7 +8,7 @@ import qs.modules.sidebarRight
 import qs.modules.sidebarLeft
 import qs.modules.settings
 import qs.modules.powerMenu
-import qs.modules.welcomePage
+import qs.modules.firstTime
 
 import QtQuick 
 import Quickshell  
