@@ -181,12 +181,6 @@ ContentMenu {
             prefField: "bar.floating"
         }
 
-        StyledSwitchOption {
-            title: "Floating Modules"
-            description: "Whether to keep the modules floating."
-            prefField: "bar.floatingModules"
-        }
-
     }
 
     ContentCard {

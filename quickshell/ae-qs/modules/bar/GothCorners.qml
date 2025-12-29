@@ -52,7 +52,7 @@ PanelWindow {
       StyledRect {
         anchors.fill: parent
         anchors.topMargin: 0
-        anchors.bottomMargin: 0
+        anchors.bottomMargin: -15
         radius: Appearance.rounding.normal
       }
     }

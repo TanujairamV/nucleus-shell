@@ -19,11 +19,17 @@ Singleton {
     property string qsVersion: ""
     property string swapUsage: "—"
     property real swapPercent: 0
-    property string diskUsage: "—"
     property string ipAddress: "—"
     property int runningProcesses: 0
     property int loggedInUsers: 0
-    
+    property string ramUsage: "—"
+    property real ramPercent: 0
+    property string cpuLoad: "—"
+    property real cpuPercent: 0
+    property string diskUsage: "—"
+    property real diskPercent: 0
+    property string cpuTemp: "—"
+    property real cpuTempPercent: 0
     readonly property var osIcons: ({
         "almalinux": "",
         "alpine": "",
@@ -193,6 +199,129 @@ Singleton {
 
     }
 
+    Timer {
+        id: procUpdater
+
+        repeat: true
+        interval: 40000
+        onTriggered: {
+            batteryPercentProc.running = true;
+            acProc.running = true;
+        }
+    }
+
+    Timer {
+        interval: 5000
+        running: true
+        repeat: true
+        onTriggered: {
+            ramProc.running = true;
+            cpuProc.running = true;
+            cpuTempProc.running = true;
+            diskProc.running = true;
+        }
+    }
+
+    Process {
+        id: ramProc
+
+        running: true
+        command: ["free", "-m"]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const line = text.split("\n").find((l) => {
+                    return l.startsWith("Mem:");
+                });
+                if (!line)
+                    return ;
+
+                const p = line.split(/\s+/);
+                const total = parseInt(p[1]);
+                const used = parseInt(p[2]);
+                ramPercent = used / total;
+                ramUsage = `${used}/${total} MB`;
+            }
+        }
+
+    }
+
+    Process {
+        id: cpuProc
+
+        running: true
+        command: ["uptime"]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const match = text.match(/load average: ([0-9.]+)/);
+                if (!match)
+                    return ;
+
+                const load = parseFloat(match[1]);
+                cpuPercent = Math.min(load / 4, 1);
+                cpuLoad = load.toFixed(2);
+            }
+        }
+
+    }
+
+    Process {
+        id: cpuTempProc
+
+        running: true
+        command: ["sh", "-c", `
+        for f in /sys/class/hwmon/hwmon*/temp*_input; do
+            name=$(cat $(dirname "$f")/name 2>/dev/null)
+            case "$name" in
+                coretemp|k10temp|cpu_thermal)
+                    cat "$f"
+                    exit
+                    ;;
+            esac
+        done
+        `]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const raw = parseInt(text.trim());
+                if (isNaN(raw))
+                    return ;
+
+                const c = raw / 1000; // millideg → deg C
+                root.cpuTemp = `${Math.round(c)}°C`;
+                // normalize: 30°C → 0%, 95°C → 100%
+                const min = 30;
+                const max = 95;
+                root.cpuTempPercent = Math.max(0, Math.min(1, (c - min) / (max - min)));
+            }
+        }
+
+    }
+
+    Process {
+        id: diskProc
+
+        running: true
+        command: ["df", "-h", "/"]
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const lines = text.trim().split("\n");
+                if (lines.length < 2)
+                    return ;
+
+                const p = lines[1].split(/\s+/);
+                const used = p[2];
+                const total = p[1];
+                const percent = parseInt(p[4]) / 100;
+                diskPercent = percent;
+                diskUsage = `${used}/${total}`;
+            }
+        }
+
+    }
+
     Process {
         id: batteryCheckProc
 
@@ -258,25 +387,6 @@ Singleton {
                 const used = parseInt(parts[2]);
                 root.swapPercent = used / total;
                 root.swapUsage = `${used} / ${total} MB`;
-            }
-        }
-
-    }
-
-    Process {
-        id: diskProc
-
-        running: true
-        command: ["sh", "-c", "df -h --total | grep total"]
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const line = text.trim();
-                if (!line)
-                    return ;
-
-                const parts = line.split(/\s+/);
-                root.diskUsage = `${parts[2]} used / ${parts[1]} total (${parts[4]})`;
             }
         }
 

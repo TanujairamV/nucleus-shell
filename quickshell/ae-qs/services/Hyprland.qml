@@ -69,6 +69,7 @@ Singleton {
         }, null)
     }
 
+
     // --- Keyboard layout fetcher ---
     function refreshKeyboardLayout() {
         hyprctlDevices.running = true

@@ -11,102 +11,8 @@ import qs.widgets
 Item {
     id: root
 
-    property string ramUsage: "—"
-    property real ramPercent: 0
-    property string cpuLoad: "—"
-    property real cpuPercent: 0
-    property string diskUsage: "—"
-    property real diskPercent: 0
-
     implicitWidth: 300
     implicitHeight: parent ? parent.height : 500
-
-    Timer {
-        interval: 5000
-        running: true
-        repeat: true
-        onTriggered: {
-            ramProc.running = true;
-            cpuProc.running = true;
-            diskProc.running = true;
-        }
-    }
-
-    // -------------------------
-    // RAM
-    // -------------------------
-    Process {
-        id: ramProc
-
-        running: true
-        command: ["free", "-m"]
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const line = text.split("\n").find((l) => {
-                    return l.startsWith("Mem:");
-                });
-                if (!line)
-                    return ;
-
-                const p = line.split(/\s+/);
-                const total = parseInt(p[1]);
-                const used = parseInt(p[2]);
-                ramPercent = used / total;
-                ramUsage = `${used}/${total} MB`;
-            }
-        }
-
-    }
-
-    // -------------------------
-    // CPU
-    // -------------------------
-    Process {
-        id: cpuProc
-
-        running: true
-        command: ["uptime"]
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const match = text.match(/load average: ([0-9.]+)/);
-                if (!match)
-                    return ;
-
-                const load = parseFloat(match[1]);
-                cpuPercent = Math.min(load / 4, 1);
-                cpuLoad = load.toFixed(2);
-            }
-        }
-
-    }
-
-    // -------------------------
-    // DISK
-    // -------------------------
-    Process {
-        id: diskProc
-
-        running: true
-        command: ["df", "-h", "/"]
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                const lines = text.trim().split("\n");
-                if (lines.length < 2)
-                    return ;
-
-                const p = lines[1].split(/\s+/);
-                const used = p[2];
-                const total = p[1];
-                const percent = parseInt(p[4]) / 100;
-                diskPercent = percent;
-                diskUsage = `${used}/${total}`;
-            }
-        }
-
-    }
 
     ColumnLayout {
         anchors.topMargin: 90
@@ -259,7 +165,8 @@ Item {
                         }
 
                         StyledText {
-                            text: cpuLoad
+                            animate: false
+                            text: SystemDetails.cpuLoad
                             color: Appearance.colors.colSubtext
                         }
 
@@ -272,7 +179,7 @@ Item {
                         color: Appearance.colors.colLayer1
 
                         Rectangle {
-                            width: parent.width * cpuPercent
+                            width: parent.width * SystemDetails.cpuPercent
                             height: parent.height
                             radius: 5
                             color: Appearance.colors.colPrimary
@@ -287,7 +194,7 @@ Item {
 
                     RowLayout {
                         StyledText {
-                            text: "RAM Usage"
+                            text: "Ram Usage"
                             color: Appearance.colors.colSubtext
                         }
 
@@ -296,7 +203,8 @@ Item {
                         }
 
                         StyledText {
-                            text: ramUsage
+                            animate: false
+                            text: SystemDetails.ramUsage
                             color: Appearance.colors.colSubtext
                         }
 
@@ -309,7 +217,7 @@ Item {
                         color: Appearance.colors.colLayer1
 
                         Rectangle {
-                            width: parent.width * ramPercent
+                            width: parent.width * SystemDetails.ramPercent
                             height: parent.height
                             radius: 5
                             color: Appearance.colors.colPrimary
@@ -333,7 +241,8 @@ Item {
                         }
 
                         StyledText {
-                            text: diskUsage
+                            animate: false
+                            text: SystemDetails.diskUsage
                             color: Appearance.colors.colSubtext
                         }
 
@@ -346,7 +255,7 @@ Item {
                         color: Appearance.colors.colLayer1
 
                         Rectangle {
-                            width: parent.width * diskPercent
+                            width: parent.width * SystemDetails.diskPercent
                             height: parent.height
                             radius: 5
                             color: Appearance.colors.colPrimary

@@ -36,11 +36,6 @@ BarModule {
                     Brightness.decreaseBrightness()
                 }
             }
-
-            onClicked: {
-                GlobalStates.sidebarLeftOpen = !GlobalStates.sidebarLeftOpen;
-            }
-
         }
     }
 }

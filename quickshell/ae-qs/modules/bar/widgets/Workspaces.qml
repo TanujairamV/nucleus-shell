@@ -1,109 +1,77 @@
-import qs.settings
-import qs.services
-import qs.widgets
-import qs.modules.bar
 import QtQuick
-import Quickshell
 import QtQuick.Layouts
+import Quickshell
+import qs.modules.bar
+import qs.services
+import qs.settings
+import qs.widgets
 
 BarModule {
     id: workspaceContainer
-    Layout.alignment: Qt.AlignCenter | Qt.AlignVCenter
 
-    component Anim: NumberAnimation {
-        duration: 400
-        easing.type: Easing.BezierSpline
-        easing.bezierCurve: Appearance.animation.curves.standard
+    property int numWorkspaces: 8
+
+    function jpNumber(n) {
+        const map = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+        return map[n] ?? n.toString();
     }
 
-    // --- Properties ---
-    property int numWorkspaces: Shell.flags.bar.modules.workspaces.numWorkspaces
-
-    // let layout determine size naturally
+    Layout.alignment: Qt.AlignVCenter
+    Layout.leftMargin: 10
+    Layout.rightMargin: 8
     implicitWidth: bgRect.implicitWidth
     implicitHeight: bgRect.implicitHeight
 
-    // --- Background ---
     Rectangle {
         id: bgRect
+
         color: Appearance.m3colors.m3paddingContainer
         radius: Shell.flags.bar.moduleRadius
+        implicitWidth: workspaceRow.implicitWidth + Appearance.margin.large
+        implicitHeight: workspaceRow.implicitHeight + Appearance.margin.normal - 4
 
-        implicitWidth: workspaceRow.implicitWidth + Appearance.margin.large - 2
-        implicitHeight: Shell.flags.bar.modules.workspaces.largeIcons ? workspaceRow.implicitHeight + Appearance.margin.large - 8.5 : workspaceRow.implicitHeight + Appearance.margin.large 
-
-
-        Row {
+        RowLayout {
             id: workspaceRow
+
             anchors.centerIn: parent
-            spacing: Shell.flags.bar.modules.workspaces.largeIcons ? 4 : 5
+            spacing: 10
 
             Repeater {
                 model: numWorkspaces
 
-                Rectangle {
-                    id: wsBox
-                    property int prefHeight: Shell.flags.bar.modules.workspaces.largeIcons ? 20 : 12
-                    property int prefWidth: Shell.flags.bar.modules.workspaces.largeIcons ? ((index + 1) === Hyprland.focusedWorkspaceId ? 50 : 33) : ((index + 1) === Hyprland.focusedWorkspaceId ? 44 : 12)
-                    width: prefWidth
+                Item {
+                    property bool focused: (index + 1) === Hyprland.focusedWorkspaceId
+                    property bool occupied: Hyprland.isWorkspaceOccupied(index + 1)
 
-                    height: prefHeight
-                    radius: Appearance.rounding.small
+                    width: 22
+                    height: 22
 
-                    Behavior on width { Anim {} }
-
-                    // current state color (kept as a binding)
-                    property color workspaceStateColor: {
-                        const isFocused = (index + 1) === Hyprland.focusedWorkspaceId
-                        const isOccupied = Hyprland.isWorkspaceOccupied(index + 1)
-
-                        if (isFocused)
-                            return Appearance.m3colors.m3secondary
-                        else if (isOccupied)
-                            return Qt.darker(Appearance.m3colors.m3secondary, 1.4)
-                        else
-                            return Appearance.m3colors.m3onSecondary
-                    }
-
-                    // keep color bound so it updates automatically when focus/occupation change
-                    color: workspaceStateColor
-
-                    // hover flag (we won't write to color directly)
-                    property bool hovered: false
-
-                    // translucent overlay for hover (doesn't break color binding)
                     Rectangle {
+                        id: bg
+
                         anchors.fill: parent
-                        radius: parent.radius
-                        z: 0
-                        // overlay color: you can tweak opacity target below
-                        color: Appearance.m3colors.m3secondary
-                        opacity: wsBox.hovered ? 0.18 : 0.0
-                        visible: true
-                        Behavior on opacity { Anim { duration: 150 } }
+                        radius: 10
+                        color: focused ? Appearance.m3colors.m3primary : "transparent"
                     }
 
                     StyledText {
-                        visible: Shell.flags.bar.modules.workspaces.showNumbers && Shell.flags.bar.modules.workspaces.largeIcons
                         anchors.centerIn: parent
-                        text: (index + 1).toString()
-                        font.pixelSize: Appearance.font.size.small 
-                    } 
+                        text: jpNumber(index + 1)
+                        font.pixelSize: Appearance.font.size.small
+                        color: focused ? Appearance.m3colors.m3shadow : occupied ? Appearance.m3colors.m3error : Appearance.syntaxHighlightingTheme
+                    }
 
-                    // keep MouseArea last so it receives events reliably
                     MouseArea {
                         anchors.fill: parent
-                        hoverEnabled: true
-                        onEntered: wsBox.hovered = true
-                        onExited: wsBox.hovered = false
                         onClicked: Hyprland.dispatch("workspace " + (index + 1))
                     }
 
-                    Behavior on color {
-                        ColorAnimation { duration: 150 }
-                    }
                 }
+
             }
+
         }
+
     }
+
 }

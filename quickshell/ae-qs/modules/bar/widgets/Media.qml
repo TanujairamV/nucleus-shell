@@ -42,8 +42,8 @@ BarModule {
             id: iconButton
             width: 24
             height: 24
-            radius: height / 2
-            color: Qt.darker(Appearance.m3colors.m3primaryContainer, 1.3)
+            radius: Shell.flags.bar.moduleRadius / 1.2
+            color: Appearance.colors.colLayer1Hover
             opacity: 1
 
             MaterialSymbol {

@@ -17,7 +17,7 @@ BarModule {
 
     StyledRect {
         id: bgRect
-        color: Appearance.m3colors.m3paddingContainer
+        color: GlobalStates.sidebarRightOpen ? Appearance.m3colors.m3primaryContainer : "transparent"
         radius: Shell.flags.bar.moduleRadius
 
         implicitWidth: contentRow.implicitWidth + Appearance.margin.large - 5
@@ -55,7 +55,7 @@ BarModule {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                //GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen
+                GlobalStates.sidebarRightOpen = !GlobalStates.sidebarRightOpen
             }
         }
     }

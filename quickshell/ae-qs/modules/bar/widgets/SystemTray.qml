@@ -23,7 +23,7 @@ BarModule {
         height: 34
         anchors.fill: parent
         radius: Shell.flags.bar.moduleRadius
-        color: Appearance.m3colors.m3paddingContainer
+        color: "transparent"
     }
 
     GridLayout {

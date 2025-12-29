@@ -9,7 +9,7 @@ BarModule {
     id: clockContainer
     Layout.alignment: Qt.AlignVCenter
 
-    property string format: "hh:mm AP"
+    property string format: "hh:mm • dd/MM"
 
 
     // Let the layout compute size automatically
