@@ -1,4 +1,5 @@
 import qs.settings
+import qs.services
 import qs.modules.bar
 import qs.modules.background
 import qs.modules.launcher
@@ -25,4 +26,5 @@ ShellRoot {
     Settings{}
     PowerMenu{}
     FirstTime{}
+    UpdateNotifier{}
 }
