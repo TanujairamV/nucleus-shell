@@ -65,7 +65,6 @@ cp -r "$SRC_DIR/"* "$QS_DIR/"
 tmp_cfg="$(mktemp)"
 jq --arg v "$latest" '.shellInfo.version = $v' "$CONFIG" > "$tmp_cfg"
 mv "$tmp_cfg" "$CONFIG"
-killall quickshell; killall qs
+killall quickshell
 quickshell -c ae-qs
-hyprctl reload
 echo "Updated $current -> $latest"
