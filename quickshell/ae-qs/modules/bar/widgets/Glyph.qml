@@ -7,7 +7,6 @@ import qs.widgets
 
 StyledText {
     id: glyph
-
     Layout.alignment: Qt.AlignLeft
     Layout.leftMargin: 10
     font.pixelSize: 26

@@ -28,6 +28,7 @@ BarModule {
             spacing: 14
 
             MaterialSymbol {
+                rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
                 id: wifi
                 icon: Network.signalStrength > 80 ? "network_wifi_3_bar" :
                       Network.signalStrength > 60 ? "network_wifi_2_bar" :
@@ -36,6 +37,7 @@ BarModule {
             }
 
             MaterialSymbol {
+                rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
                 id: btIcon
                 icon: "bluetooth"
                 iconSize: Appearance.font.size.huge
