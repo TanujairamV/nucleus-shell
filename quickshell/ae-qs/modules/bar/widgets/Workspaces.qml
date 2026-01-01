@@ -11,8 +11,8 @@ BarModule {
 
     property int numWorkspaces: 8
 
-    function jpNumber(n) {
-        const map = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+    function workspaceIcon(n) {
+        const map = ["", "dvr", "terminal", "desktop_windows", "browse", "design_services", "chat", "android", "avg_pace", "九", "十"];
         return map[n] ?? n.toString();
     }
 
@@ -51,16 +51,25 @@ BarModule {
 
                         anchors.fill: parent
                         radius: 10
-                        color: focused ? Appearance.m3colors.m3primary : "transparent"
+                        color: focused ? Appearance.m3colors.m3tertiary : "transparent"
                     }
 
-                    StyledText {
+                    MaterialSymbol {
+                        id: symbol
+                        animate: false
                         anchors.centerIn: parent
-                        text: jpNumber(index + 1)
+                        
+                        text: (focused || occupied) ? workspaceIcon(index + 1) : "fiber_manual_record"
+                        
+                        font.variableAxes: { 
+                            "FILL": (symbol.text === "fiber_manual_record") ? 1.0 : 0.0 
+                        }
+
                         rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
-                        font.pixelSize: Appearance.font.size.small
-                        color: focused ? Appearance.m3colors.m3shadow : occupied ? Appearance.m3colors.m3error : Appearance.syntaxHighlightingTheme
+                        font.pixelSize: Appearance.font.size.large
+                        color: focused ? Appearance.m3colors.m3shadow : Appearance.m3colors.m3secondary
                     }
+
 
                     MouseArea {
                         anchors.fill: parent
