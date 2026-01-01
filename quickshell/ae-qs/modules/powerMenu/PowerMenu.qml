@@ -46,7 +46,7 @@ StaticWindow {
     }
 
     margins {
-        top: screenH / 4 // I used these weird values to fix it not appearing on focused monitors. It's a wayland issue.
+        top: screenH / 3 // I used these weird values to fix it not appearing on focused monitors. It's a wayland issue.
         bottom: 20
         left: Appearance.margin.large
         right: Appearance.margin.large

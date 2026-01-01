@@ -33,18 +33,21 @@ BarModule {
         MaterialSymbolButton {
             icon: "screenshot_region"
             iconSize: Appearance.font.size.large + 4
+            rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
             onButtonClicked: Quickshell.execDetached(["sh", "-c", "grim -g \"$(slurp)\" /tmp/shot.png && cp /tmp/shot.png ~/Pictures/Screenshots/screenshot-$(date +%s).png && wl-copy < /tmp/shot.png"])
         }
 
         MaterialSymbolButton {
             icon: "edit"
             iconSize: Appearance.font.size.large + 4
+            rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
             onButtonClicked: Quickshell.execDetached(["hyprpicker"])
         }
 
         MaterialSymbolButton {
             icon: "terminal"
             iconSize: Appearance.font.size.large + 4
+            rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
             onButtonClicked: Quickshell.execDetached(["kitty"])
         }
 

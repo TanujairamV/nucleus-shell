@@ -10,6 +10,7 @@ import QtQuick.Layouts
 BarModule {
     id: root
     readonly property Repeater items: items
+    property bool verticalMode: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right")
 
     clip: true
     implicitWidth: padding.width

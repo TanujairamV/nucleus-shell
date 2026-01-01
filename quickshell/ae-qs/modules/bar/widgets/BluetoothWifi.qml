@@ -16,11 +16,11 @@ BarModule {
 
     StyledRect {
         id: bgRect
-        color: GlobalStates.sidebarRightOpen ? Appearance.m3colors.m3primaryContainer : "transparent"
-        radius: Shell.flags.bar.moduleRadius
+        color: GlobalStates.sidebarRightOpen ? Appearance.m3colors.m3surfaceContainerHighest : "transparent"
+        radius: Shell.flags.bar.moduleRadius 
 
-        implicitWidth: contentRow.implicitWidth + Appearance.margin.large - 5
-        implicitHeight: contentRow.implicitHeight + Appearance.margin.small - 5
+        implicitWidth: contentRow.implicitWidth + Appearance.margin.large - 2
+        implicitHeight: contentRow.implicitHeight + Appearance.margin.small - 2
 
         RowLayout {
             id: contentRow

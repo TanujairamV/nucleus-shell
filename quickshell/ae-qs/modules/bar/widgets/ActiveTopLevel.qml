@@ -32,6 +32,7 @@ BarModule {
     implicitHeight: col.implicitHeight
 
     Column {
+        visible: (Shell.flags.bar.position === "top" || Shell.flags.bar.position === "bottom")
         // Added org to appId just cuz it looks cool :>
 
         id: col
@@ -62,6 +63,23 @@ BarModule {
             font.pixelSize: Appearance.font.size.small
         }
 
+    }
+
+    RowLayout {
+        visible: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right")
+        spacing: 12
+        anchors.centerIn: parent
+
+        MaterialSymbol {
+            icon: "desktop_windows"
+            rotation: 270
+        }
+
+        StyledText {
+            text: formatAppId(activeToplevel?.appId || `Workspace ${Hyprland.focusedWorkspaceId}`)
+            horizontalAlignment: Text.AlignHCenter
+            font.pixelSize: Appearance.font.size.small
+        }        
     }
 
 }

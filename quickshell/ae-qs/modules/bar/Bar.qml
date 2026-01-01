@@ -59,25 +59,6 @@ Scope {
 
             }
 
-            Glyph {
-                visible: Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right"
-                anchors.top: parent.top
-                anchors.topMargin: Shell.flags.bar.density * 0.2
-                anchors.horizontalCenter: parent.horizontalCenter
-                rotation: 360               
-            }
-
-            BluetoothWifi {
-                visible: Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right"
-                anchors.bottom: parent.bottom 
-                anchors.bottomMargin: Shell.flags.bar.density * 0.6
-                anchors.horizontalCenter: parent.horizontalCenter
-                rotation: 90
-            }
-
-            // I'm too lazy to make all new widgets for the vertical bar so.... I'm using this way but it still works.
-            // Also the verticalBar does not include the 4 widgets which the horizontalBar does.
-
             BarContent {
                 anchors.fill: parent
             }

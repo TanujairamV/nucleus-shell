@@ -57,6 +57,7 @@ BarModule {
                     StyledText {
                         anchors.centerIn: parent
                         text: jpNumber(index + 1)
+                        rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
                         font.pixelSize: Appearance.font.size.small
                         color: focused ? Appearance.m3colors.m3shadow : occupied ? Appearance.m3colors.m3error : Appearance.syntaxHighlightingTheme
                     }

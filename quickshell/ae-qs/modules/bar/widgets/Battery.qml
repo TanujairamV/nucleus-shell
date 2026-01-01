@@ -32,6 +32,7 @@ BarModule {
 
         StyledText {
             animate: false
+            visible: (Shell.flags.bar.position === "top" || Shell.flags.bar.position === "bottom")
             text: UPower.percentage + "%"
         }
 
@@ -63,6 +64,7 @@ BarModule {
                 return "battery_0_bar";
             }
             iconSize: 14
+            rotation: (Shell.flags.bar.position === "left" || Shell.flags.bar.position === "right") ? 270 : 0
             Layout.bottomMargin: 2
         }
 

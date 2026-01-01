@@ -6,7 +6,7 @@ import QtQuick.Layouts
 
 Rectangle {
     id: bgRect
-    color: Appearance.m3colors.m3paddingContainer
+    color: "transparent"
     radius: Appearance.rounding.full
 
     implicitWidth: textItem.implicitWidth + 12
@@ -20,6 +20,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter       
         iconSize: 22
         icon: "power_settings_new"
+        color: Appearance.m3colors.m3error
     }
 
     MouseArea {
