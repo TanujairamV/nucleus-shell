@@ -111,20 +111,6 @@ ContentMenu {
             maximum: 128
         }
 
-        StyledText {
-            text: "Bar Module Values"
-            font.pixelSize: 20
-            font.bold: true
-        }
-
-        NumberStepper {
-            label: "Workspace Indicators"
-            description: "Adjust workspaces indicators on the bar."
-            prefField: "bar.modules.workspaces.workspaceIndicators"
-            minimum: 1
-            maximum: 10
-        }
-
     }
 
 }
