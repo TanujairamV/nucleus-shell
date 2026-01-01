@@ -45,10 +45,11 @@ Item {
 
     ColumnLayout {
         id: contentArea
-        anchors.top: wpBG.top
-        anchors.left: wpBG.left
-        anchors.right: wpBG.right
+        anchors.fill: wpBG
         anchors.margins: contentCard.cardMargin
         spacing: contentCard.cardSpacing
+        Layout.preferredWidth: wpBG.width
+        Layout.preferredHeight: wpBG.height
     }
+
 }

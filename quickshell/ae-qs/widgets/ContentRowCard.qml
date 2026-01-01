@@ -28,7 +28,7 @@ Item {
                 easing.type: Easing.InOutExpo
             }
         }
-        color: Appearance.colors.m3surfaceContainerLow
+        color: Appearance.m3colors.m3surfaceContainerLow
         Behavior on color {
             ColorAnimation {
                 duration: Appearance.animation.durations.small

@@ -4,7 +4,6 @@ import qs.functions
 import qs.services
 import QtQuick
 import Quickshell
-import Quickshell.Io
 import QtQuick.Layouts
 
 StyledRect {
@@ -16,32 +15,14 @@ StyledRect {
 
     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-    readonly property bool wifiConnected: Network.connectedSsid !== "No Internet"
-    readonly property string networkstatustext: wifiConnected ? Network.connectedSsid : "Disabled"
+    // --- Service bindings ---
+    readonly property bool wifiEnabled: Network.wifiEnabled
+    readonly property bool hasActive: Network.active !== null
+    readonly property string iconName: Network.icon
+    readonly property string titleText: Network.label
+    readonly property string statusText: Network.status
 
-    property string networkstatusicon: {
-        if (!wifiConnected)
-            return "signal_wifi_off";
-        if (Network.signalStrength > 60)
-            return "network_wifi";
-        if (Network.signalStrength > 30)
-            return "network_wifi_2_bar";
-        return "network_wifi_1_bar";
-    }
-
-    Process {
-        id: toggleWifiProc
-        running: false
-        command: []
-
-        function toggle() {
-            const cmd = wifiConnected ? "off" : "on";
-            toggleWifiProc.command = ["bash", "-c", `nmcli radio wifi ${cmd}`];
-            toggleWifiProc.running = true;
-        }
-    }
-
-    // Icon background
+    // --- Icon background ---
     StyledRect {
         id: iconBg
         width: 50
@@ -50,35 +31,48 @@ StyledRect {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 10
-        color: !wifiConnected ? Appearance.m3colors.m3surfaceContainerHigh : Appearance.m3colors.m3primaryContainer
+
+        color: {
+            if (!wifiEnabled)
+                return Appearance.m3colors.m3surfaceContainerHigh;
+            if (hasActive)
+                return Appearance.m3colors.m3primaryContainer;
+            return Appearance.m3colors.m3secondaryContainer;
+        }
 
         MaterialSymbol {
             anchors.centerIn: parent
+            icon: iconName
             iconSize: 35
-            icon: networkstatusicon
         }
     }
 
+    // --- Labels ---
     Column {
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: iconBg.right
         anchors.leftMargin: 10
+        spacing: 2
 
         StyledText {
-            text: "Network"
+            text: titleText
             font.pixelSize: 20
+            elide: Text.ElideRight
+            width: root.width - iconBg.width - 30
         }
 
         StyledText {
-            text: networkstatustext
+            text: statusText
             font.pixelSize: Appearance.font.size.small
+            color: Appearance.m3colors.m3onSurfaceVariant
+            elide: Text.ElideRight
+            width: root.width - iconBg.width - 30
         }
     }
 
-    // Whole card toggles WiFi radio
+    // --- Interaction ---
     MouseArea {
         anchors.fill: parent
-        propagateComposedEvents: true
-        onClicked: toggleWifiProc.toggle()
+        onClicked: Network.toggleWifi()
     }
 }
