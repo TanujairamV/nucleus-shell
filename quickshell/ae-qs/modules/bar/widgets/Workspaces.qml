@@ -9,7 +9,7 @@ import qs.widgets
 BarModule {
     id: workspaceContainer
 
-    property int numWorkspaces: 8
+    property int numWorkspaces: Shell.flags.bar.modules.workspaces.workspaceIndicators
 
     function workspaceIcon(n) {
         const map = ["", "dvr", "terminal", "desktop_windows", "browse", "design_services", "chat", "android", "avg_pace", "九", "十"];

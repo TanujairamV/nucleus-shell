@@ -8,8 +8,8 @@ import qs.settings
 import qs.widgets
 
 ContentMenu {
-    title: "Quick Settings"
-    description: "Adjust how the desktop looks like quickly."
+    title: "Appearance"
+    description: "Adjust how the desktop looks like."
 
     ContentCard {
         // ---------- Dark Mode Row ----------
@@ -84,97 +84,6 @@ ContentMenu {
 
     }
 
-    ContentCard {
-        StyledText {
-            text: "Bar"
-            font.pixelSize: 20
-            font.bold: true
-        }
-
-        ColumnLayout {
-            StyledText {
-                text: "Position"
-                font.pixelSize: 16
-            }
-
-            RowLayout {
-                spacing: 8
-
-                Repeater {
-                    model: ["Top", "Bottom", "Left", "Right"]
-
-                    delegate: StyledButton {
-                        property string pos: modelData.toLowerCase()
-
-                        text: modelData
-                        implicitWidth: 0
-                        Layout.fillWidth: true
-                        // checked when this button matches current bar position
-                        checked: Shell.flags.bar.position === pos
-                        // keep rounding consistent (no conditional needed here)
-                        topLeftRadius: Appearance.rounding.normal
-                        topRightRadius: Appearance.rounding.normal
-                        bottomLeftRadius: Appearance.rounding.normal
-                        bottomRightRadius: Appearance.rounding.normal
-                        onClicked: Shell.setNestedValue("bar.position", pos)
-                    }
-
-                }
-
-            }
-
-        }
-
-        ColumnLayout {
-            StyledText {
-                text: "Density"
-                font.pixelSize: 16
-            }
-
-            RowLayout {
-                spacing: 8
-
-                StyledButton {
-                    text: "Cozy"
-                    implicitWidth: 0
-                    Layout.fillWidth: true
-                    checked: Shell.flags.bar.density === 60
-                    onClicked: Shell.setNestedValue("bar.density", 60)
-                }
-
-                StyledButton {
-                    text: "Comfortable"
-                    implicitWidth: 0
-                    Layout.fillWidth: true
-                    checked: Shell.flags.bar.density === 50
-                    onClicked: Shell.setNestedValue("bar.density", 50)
-                }
-
-                StyledButton {
-                    text: "Condensed"
-                    implicitWidth: 0
-                    Layout.fillWidth: true
-                    checked: Shell.flags.bar.density <= 40
-                    onClicked: Shell.setNestedValue("bar.density", 45)
-                }
-
-            }
-
-        }
-
-        StyledSwitchOption {
-            title: "Enabled"
-            description: "Enable of disable the bar."
-            prefField: "bar.enabled"
-        }
-
-        StyledSwitchOption {
-            title: "Floating Bar"
-            description: "Whether to keep the bar floating."
-            prefField: "bar.floating"
-        }
-
-    }
 
     ContentCard {
         StyledText {

@@ -45,8 +45,8 @@ Scope {
                 { icon: "network_wifi", label: "Network", page: 0},
                 { icon: "bluetooth", label: "Bluetooth", page: 1 },
                 { icon: "volume_up", label: "Audio", page: 2 },
+                { icon: "instant_mix", label: "Appearance", page: 3 },
                 { header: true, label: "Customization" },
-                { icon: "instant_mix", label: "Quick Settings", page: 3 },
                 { icon: "toolbar", label: "Bar", page: 4 },
                 { icon: "wallpaper", label: "Wallpapers", page: 5 },
                 { icon: "build", label: "Misc", page: 6 },
@@ -282,7 +282,7 @@ Scope {
                     AudioConfig {
                     }
 
-                    QuickSettings {
+                    AppearanceConfig {
                     }
 
                     BarConfig {

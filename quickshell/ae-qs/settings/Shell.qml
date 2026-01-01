@@ -131,6 +131,11 @@ Singleton {
                 property int islandRadius: Appearance.rounding.large
                 property int density: 50
                 property int width: 1080
+                property JsonObject modules: JsonObject {
+                    property JsonObject workspaces: JsonObject {
+                        property int workspaceIndicators: 8
+                    }
+                }
             }
         }
     }

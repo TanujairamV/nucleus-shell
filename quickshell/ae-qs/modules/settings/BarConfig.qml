@@ -80,9 +80,9 @@ ContentMenu {
         }
 
         NumberStepper {
-            label: "Bar Height"
-            description: "Adjust the height of the bar."
-            prefField: "bar.height"
+            label: "Bar Density"
+            description: "Adjust the height/density of the bar."
+            prefField: "bar.density"
             minimum: 40
             maximum: 128
         }
@@ -120,7 +120,7 @@ ContentMenu {
         NumberStepper {
             label: "Workspace Indicators"
             description: "Adjust workspaces indicators on the bar."
-            prefField: "bar.modules.workspaces.numWorkspaces"
+            prefField: "bar.modules.workspaces.workspaceIndicators"
             minimum: 1
             maximum: 10
         }
