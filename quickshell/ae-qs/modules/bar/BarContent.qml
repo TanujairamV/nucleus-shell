@@ -1,124 +1,166 @@
-import qs.widgets
-import qs.settings
-import qs.modules.bar.widgets
-import QtQuick
-import QtQuick.Layouts
-
 // I'm too lazy to modify all modules sooo.... I will fix it later but not right now.
 
+import QtQuick
+import QtQuick.Layouts
+import qs.modules.bar.widgets
+import qs.settings
+import qs.widgets
+
 Item {
+    // Horizontal Bar Content
 
     property bool isHorizontal: Shell.flags.bar.position === "top" || Shell.flags.bar.position === "bottom"
 
-    // Horizontal Bar Content
-
     Row {
         id: hLeftRow
+
         visible: isHorizontal
         anchors.left: parent.left
         anchors.leftMargin: Shell.flags.bar.density * 0.3
         anchors.verticalCenter: parent.verticalCenter
         spacing: 16
 
-        Glyph{}
-        ActiveTopLevel{}
+        Glyph {
+        }
+
+        ActiveTopLevel {
+        }
+
     }
 
     Row {
         id: hCenterRow
+
         visible: isHorizontal
         anchors.centerIn: parent
         spacing: 4
+
         //SystemUsage{}
-        Media{}
-        Workspaces{}
-        Clock{}
-        Utilities{}
-        Battery{}
+        Media {
+        }
+
+        Workspaces {
+        }
+
+        Clock {
+        }
+
+        Utilities {
+        }
+
+        Battery {
+        }
+
     }
 
     RowLayout {
         id: hRightRow
+
         visible: isHorizontal
         anchors.right: parent.right
         anchors.rightMargin: Shell.flags.bar.density * 0.3
         anchors.verticalCenter: parent.verticalCenter
         spacing: 4
 
-        SystemTray{}
-        BluetoothWifi{}
-    }
+        SystemTray {
+        }
 
+        BluetoothWifi {
+        }
+
+    }
 
     // Vertical Bar Content
 
-    Glyph {
+    Item {
         visible: !isHorizontal
         anchors.top: parent.top
-        anchors.topMargin: Shell.flags.bar.density * 0.2
+        anchors.topMargin: Shell.flags.bar.density * 0.3
         anchors.horizontalCenter: parent.horizontalCenter
-        rotation: 360               
+        // Contain rotated bounds
+        implicitWidth: vRow.implicitHeight
+        implicitHeight: vRow.implicitWidth
+
+        Row {
+            id: vRow
+
+            anchors.centerIn: parent
+            spacing: 8
+            rotation: 90
+
+            Glyph {
+                rotation: 270
+            }
+
+            Workspaces {
+            }
+
+            Battery {
+            }
+
+        }
+
     }
 
-    Workspaces{
+    Item {
         visible: !isHorizontal
-        anchors.top: parent.top
-        anchors.topMargin: Shell.flags.bar.density * 3.4
-        anchors.horizontalCenter: parent.horizontalCenter
-        rotation: 90
-    }
-
-    ActiveTopLevel {
-        visible: !isHorizontal
-        anchors.centerIn: parent 
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.centerIn: parent
         anchors.verticalCenterOffset: 35
-        rotation: 90
+
+        implicitWidth: centerRow.implicitHeight
+        implicitHeight: centerRow.implicitWidth
+
+        Row {
+            id: centerRow
+            anchors.centerIn: parent
+
+            ActiveTopLevel {
+                rotation: 90
+            }
+        }
     }
 
-    SystemTray {
-        visible: !isHorizontal
-        anchors.bottom: parent.bottom 
-        anchors.bottomMargin: Shell.flags.bar.density * 3.8
-        anchors.horizontalCenter: parent.horizontalCenter        
-    }
 
-    Clock {
+    Item {
         visible: !isHorizontal
-        anchors.bottom: parent.bottom 
-        anchors.bottomMargin: Shell.flags.bar.density * 2.8
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Shell.flags.bar.density * 0.3
         anchors.horizontalCenter: parent.horizontalCenter
-    }
+        implicitWidth: row.implicitHeight
+        implicitHeight: row.implicitWidth
 
-    BluetoothWifi {
-        visible: !isHorizontal
-        anchors.bottom: parent.bottom 
-        anchors.bottomMargin: Shell.flags.bar.density * 1.4
-        anchors.horizontalCenter: parent.horizontalCenter
-        rotation: 90
-    }
+        Row {
+            id: row
 
-    PowerMenuToggle {
-        visible: !isHorizontal
-        anchors.bottom: parent.bottom 
-        anchors.bottomMargin: Shell.flags.bar.density * 0.2
-        anchors.horizontalCenter: parent.horizontalCenter
-        rotation: 360        
-    }
+            anchors.centerIn: parent
+            spacing: 2
+            rotation: 90
 
-    Battery {
-        visible: !isHorizontal
-        anchors.top: parent.top
-        anchors.topMargin: Shell.flags.bar.density * 6.6
-        anchors.horizontalCenter: parent.horizontalCenter
-        rotation: 90        
-    }
+            SystemTray {
+                rotation: 270
+            }
 
+            Clock {
+                rotation: 270
+            }
+
+            BluetoothWifi {
+            }
+
+            PowerMenuToggle {
+                rotation: 270
+            }
+
+        }
+
+    }
 
     RControl {
         visible: isHorizontal
     }
+
     LControl {
         visible: isHorizontal
     }
+
 }

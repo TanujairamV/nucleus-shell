@@ -42,8 +42,8 @@ Scope {
             property bool sidebarCollapsed: false
             property var menuModel: [
                 { header: true, label: "System"},
-                { icon: "network_wifi", label: "Network", page: 0},
-                { icon: "bluetooth", label: "Bluetooth", page: 1 },
+                { icon: "bluetooth", label: "Bluetooth", page: 0 },
+                { icon: "network_wifi", label: "Network", page: 1} ,
                 { icon: "volume_up", label: "Audio", page: 2 },
                 { icon: "instant_mix", label: "Appearance", page: 3 },
                 { header: true, label: "Customization" },
@@ -273,10 +273,10 @@ Scope {
                     anchors.bottom: parent.bottom
                     currentIndex: root.selectedIndex
 
-                    NetworkConfig {
-                    }
-
                     BluetoothConfig{
+                    }
+                    
+                    NetworkConfig {
                     }
 
                     AudioConfig {

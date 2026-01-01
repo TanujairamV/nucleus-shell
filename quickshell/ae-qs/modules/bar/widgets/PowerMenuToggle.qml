@@ -10,7 +10,7 @@ Rectangle {
     radius: Appearance.rounding.full
 
     implicitWidth: textItem.implicitWidth + 12
-    implicitHeight: textItem.implicitHeight + 6
+    implicitHeight: textItem.implicitHeight + 12
 
     MaterialSymbol {
         id: textItem

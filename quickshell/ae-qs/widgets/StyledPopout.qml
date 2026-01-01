@@ -99,7 +99,7 @@ LazyLoader {
         color: "transparent"
         visible: root.isVisible
 
-        WlrLayershell.namespace: "aeqs:popout"
+        WlrLayershell.namespace: "aelyx:popout"
         WlrLayershell.layer: WlrLayer.Overlay
         exclusionMode: ExclusionMode.Ignore
         exclusiveZone: 0
