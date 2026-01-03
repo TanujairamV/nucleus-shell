@@ -35,50 +35,95 @@ exists() {
 }
 
 installed() {
-    pacman -Qq "$1" &>/dev/null
+    if [[ "$DISTRO" == "arch" ]]; then
+        pacman -Qq "$1" &>/dev/null
+    elif [[ "$DISTRO" == "fedora" ]]; then
+        rpm -q "$1" &>/dev/null
+    fi
 }
+
+# Detect distro
+if [[ -f /etc/fedora-release ]]; then
+    DISTRO="fedora"
+elif [[ -f /etc/arch-release ]]; then
+    DISTRO="arch"
+else
+    echo -e "${RED}Unsupported distro${RESET}"
+    exit 1
+fi
+
+echo -e "${BLUE}Detected distro: $DISTRO${RESET}"
 
 if ! confirm "install dependencies?"; then
     exit 0
 fi
 
+# Core tools
 if ! exists git; then
-    run_cmd "sudo pacman -S --needed git"
+    if [[ "$DISTRO" == "arch" ]]; then
+        run_cmd "sudo pacman -S --needed git"
+    else
+        run_cmd "sudo dnf install -y git"
+    fi
 fi
 
-if ! exists yay; then
-    confirm "install yay?" && {
-        run_cmd "sudo pacman -S --needed base-devel"
-        tmp=$(mktemp -d)
-        run_cmd "git clone https://aur.archlinux.org/yay.git $tmp/yay"
-        run_cmd "cd $tmp/yay && makepkg -si"
-        rm -rf "$tmp"
-    }
+# Fedora does not need yay; Arch installs yay
+if [[ "$DISTRO" == "arch" ]]; then
+    if ! exists yay; then
+        confirm "install yay?" && {
+            run_cmd "sudo pacman -S --needed base-devel"
+            tmp=$(mktemp -d)
+            run_cmd "git clone https://aur.archlinux.org/yay.git $tmp/yay"
+            run_cmd "cd $tmp/yay && makepkg -si"
+            rm -rf "$tmp"
+        }
+    fi
 fi
 
-packages=(
-    hyprland hyprpaper hyprlock hyprpicker
-    wf-recorder grim slurp
-    kitty fish starship
-    firefox nautilus
-    networkmanager wireplumber bluez-utils
-    fastfetch playerctl brightnessctl
-    papirus-icon-theme-git hyprsunset
-    nerd-fonts ttf-jetbrains-mono
-    ttf-fira-code ttf-firacode-nerd
-    ttf-material-symbols-variable-git
-    ttf-font-awesome ttf-fira-sans
-    quickshell matugen-bin
-    qt5-wayland qt6-wayland qt5-graphicaleffects qt6-5compat
-    xdg-desktop-portal-hyprland
-    zenity jq ddcutil flatpak
-)
+# Packages
+if [[ "$DISTRO" == "arch" ]]; then
+    packages=(
+        hyprland hyprpaper hyprlock hyprpicker
+        wf-recorder grim slurp
+        kitty fish starship
+        firefox nautilus
+        networkmanager wireplumber bluez-utils
+        fastfetch playerctl brightnessctl
+        papirus-icon-theme-git hyprsunset
+        nerd-fonts ttf-jetbrains-mono
+        ttf-fira-code ttf-firacode-nerd
+        ttf-material-symbols-variable-git
+        ttf-font-awesome ttf-fira-sans
+        quickshell matugen-bin
+        qt5-wayland qt6-wayland qt5-graphicaleffects qt6-5compat
+        xdg-desktop-portal-hyprland
+        zenity jq ddcutil flatpak
+    )
+    installer="yay -S --noconfirm"
+else
+    packages=(
+        hyprland hyprpaper hyprlock hyprpicker
+        wf-recorder grim slurp
+        kitty fish starship
+        firefox nautilus
+        NetworkManager wireplumber bluez
+        fastfetch playerctl brightnessctl
+        papirus-icon-theme hyprsunset
+        'NerdFonts-*' jetbrains-mono-fonts
+        fira-code-font fira-code-nerd-font
+        material-symbols-font awesome-fonts fira-sans-fonts
+        qt5-qtwayland qt6-qtwayland qt5-qtgraphicaleffects
+        xdg-desktop-portal-hyprland
+        zenity jq ddcutil flatpak
+    )
+    installer="sudo dnf install -y"
+fi
 
 for pkg in "${packages[@]}"; do
     if installed "$pkg"; then
         echo -e "${GRAY}$pkg already installed${RESET}"
     else
-        run_cmd "yay -S --noconfirm $pkg"
+        run_cmd "$installer $pkg"
     fi
 done
 
