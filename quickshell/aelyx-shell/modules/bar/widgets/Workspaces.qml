@@ -76,7 +76,7 @@ BarModule {
                 Rectangle {
                     height: 26
                     radius: 14
-                    color: Appearance.m3colors.m3tertiary
+                    color: ColorModifier.mix(Appearance.m3colors.m3tertiary, Appearance.m3colors.m3surfaceContainerLowest)
                     opacity: 0.8
 
                     x: modelData.start * (26 + workspaceRow.spacing)
@@ -86,6 +86,53 @@ BarModule {
             }
         }
 
+        Rectangle {
+            id: highlight
+            property int index: Hyprland.focusedWorkspaceId - 1
+            property real itemWidth: 26
+            property real spacing: workspaceRow.spacing
+            property real targetX: Math.min(index, numWorkspaces - 1) * (itemWidth + spacing) + 7
+
+            // Animated endpoints
+            property real animatedX1: targetX
+            property real animatedX2: targetX
+
+            x: Math.min(animatedX1, animatedX2)
+            y: 4
+            width: Math.abs(animatedX2 - animatedX1) + itemWidth
+            height: 26
+            radius: 13
+            color: Appearance.m3colors.m3tertiary
+
+
+            Behavior on animatedX1 {
+                NumberAnimation {
+                    duration: Appearance.animation.durations.fast
+                    easing.type: Easing.OutCubic
+                }
+            }
+
+            Behavior on animatedX2 {
+                NumberAnimation {
+                    duration: Appearance.animation.durations.large
+                    easing.type: Easing.OutCubic
+                }
+            }
+
+            onTargetXChanged: {
+                animatedX1 = targetX
+                animatedX2 = targetX
+            }
+
+            // Update highlight when workspace changes
+            Connections {
+                target: Hyprland
+                function onWorkspaceChanged(wsId) {
+                    highlight.index = wsId - 1
+                    highlight.targetX = highlight.index * (highlight.itemWidth + highlight.spacing)
+                }
+            }
+        }
 
         RowLayout {
             id: workspaceRow
@@ -103,11 +150,6 @@ BarModule {
                     width: 26
                     height: 26
 
-                    Rectangle {
-                        anchors.fill: parent
-                        radius: 14
-                        color: focused ? Appearance.m3colors.m3tertiary : "transparent"
-                    }
 
                     IconImage {
                         id: appIcon

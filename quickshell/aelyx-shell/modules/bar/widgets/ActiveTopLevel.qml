@@ -78,7 +78,7 @@ BarModule {
     implicitWidth: col.implicitWidth
     implicitHeight: col.implicitHeight
 
-    property string userHostname: simplifyTitle(activeToplevel?.title) || SystemDetails.username + "@" + SystemDetails.hostname
+    property string userHostname: Stringify.shortText(simplifyTitle(activeToplevel?.title), 25) || SystemDetails.username + "@" + SystemDetails.hostname
 
     Rectangle {
         id: col
