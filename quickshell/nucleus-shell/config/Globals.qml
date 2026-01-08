@@ -11,6 +11,7 @@ Singleton {
     visiblility: QtObject {
         property bool powermenu: false
         property bool launcher: false
+        property bool sidebarRight: false
     }
 
     states: QtObject {

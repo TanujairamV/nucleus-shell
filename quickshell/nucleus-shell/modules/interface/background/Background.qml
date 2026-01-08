@@ -45,7 +45,7 @@ Scope {
             Process {
                 id: wallpaperProc
 
-                command: ["bash", "-c", FileUtils.trimFileProtocol(Directories.scriptsPath) + "/interface/changebg.sh"]
+                command: ["bash", "-c", Directories.scriptsPath + "/interface/changebg.sh"]
 
                 stdout: StdioCollector {
                     onStreamFinished: {

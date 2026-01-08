@@ -82,7 +82,7 @@ PanelWindow {
                 PowerMenuButton {
                     buttonIcon: "logout"
                     onClicked: {
-                        Quickshell.execcDetached(["hyprctl", "dispatch", "exit"])
+                        Quickshell.execDetached(["hyprctl", "dispatch", "exit"])
                         Globals.visiblility.powermenu = false
                     }
                 }

@@ -200,7 +200,7 @@ Item {
     Process {
         id: appLoader
         running: true
-        command: ["bash", "-c", FileUtils.trimFileProtocol(Directories.scriptsPath) + "/finders/find-apps.sh"]
+        command: ["bash", "-c", Directories.scriptsPath + "/finders/find-apps.sh"]
         stdout: SplitParser {
             onRead: (data) => {
                 const lines = data.split("\n");

@@ -96,6 +96,10 @@ Singleton {
             property JsonObject appearance: JsonObject {
                 property string theme: "dark"
                 property bool tintIcons: false
+                property JsonObject colors: JsonObject {
+                    property string scheme: "scheme-neutral"
+                    property bool runMatugenUserWide: false
+                }
                 property JsonObject background: JsonObject {
                     property bool enabled: true 
                     property url path: Directories.defaultsPath + "/default.jpg"

@@ -6,9 +6,9 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Widgets
 import qs.config
-import qs.functions
+import qs.modules.functions
 import qs.services
-import qs.widgets
+import qs.modules.widgets
 
 Scope {
     property var settingsWindow: null
@@ -48,9 +48,18 @@ Scope {
             color: Appearance.m3colors.m3background
             onClosing: Globals.states.settingsOpen = false
             Component.onCompleted: settingsWindow = root
-        }
 
-        // WIP 
+            SwipeView {
+                id: pages
+                interactive: true 
+                orientation: Qt.Vertical
+
+                Item {
+                    id: appearancePage 
+                    
+                }
+            }
+        } 
 
     }
 

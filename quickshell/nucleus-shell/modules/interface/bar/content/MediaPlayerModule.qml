@@ -61,7 +61,7 @@ Item {
                 id: art
 
                 anchors.fill: parent
-                source: Mpris.artUrl !== "" ? Mpris.artUrl : "../../../../assets/svgs/music.svg"
+                source: (status !== Image.Error || Mpris.artUrl !== "") ? Mpris.artUrl : Directories.assetsPath + "/svgs/music.svg"
                 layer.enabled: true
 
                 layer.effect: ColorOverlay {

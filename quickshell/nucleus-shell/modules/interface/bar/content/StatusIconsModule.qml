@@ -34,9 +34,7 @@ Item {
 
                 visible: Config.runtime.bar.modules.statusIcons.themeStatusEnabled
                 rotation: isVertical ? 270 : 0
-                font.variableAxes: {
-                    "FILL": 1
-                }
+                fill: 1
                 icon: Config.runtime.appearance.theme === "light" ? "light_mode" : "dark_mode"
                 iconSize: Appearance.font.size.huge
             }
@@ -73,6 +71,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
+            onClicked: Globals.visiblility.sidebarRight = !Globals.visiblility.sidebarRight
         }
 
     }

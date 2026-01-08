@@ -17,7 +17,7 @@ Item {
     AnimatedImage {
         id: art
         anchors.fill: parent
-        source: "../../../../assets/gifs/bongo-cat.gif"
+        source: Directories.assetsPath + "/gifs/bongo-cat.gif"
         cache: false        // this is important
         smooth: true        // smooooooth
         rotation: isVertical ? 270 : 0

@@ -224,9 +224,7 @@ Item {
                         rotation: (Config.runtime.bar.position === "left" || Config.runtime.bar.position === "right") ? 270 : 0
                         text: displayText
                         font.pixelSize: (displayText === "fiber_manual_record") ? 10 : (Config.runtime.bar.modules.workspaces.showJapaneseNumbers ? Appearance.font.size.large - 2 : Appearance.font.size.large)
-                        font.variableAxes: {
-                            "FILL": displayText === "fiber_manual_record" ? 1 : 0
-                        }
+                        fill: displayText === "fiber_manual_record" ? 1 : 0
                         color: focused ? Appearance.m3colors.m3shadow : Appearance.m3colors.m3secondary
                     }
 

@@ -23,8 +23,9 @@ Singleton {
     property string shellConfigName: "configuration.json"
     property string shellConfigPath: `${Directories.shellConfig}/config/${Directories.shellConfigName}`
     property string generatedMaterialThemePath: FileUtils.trimFileProtocol(`${Directories.config}/nucleus-shell/config/colors.json`)
-    property string defaultsPath: config + "/quickshell/nucleus-shell/defaults"
-    property string scriptsPath: config + "/quickshell/nucleus-shell/scripts" // Do not use FileUtils.trimFileProtocol because it is used with file:// too in other places. (same for above)
+    property string defaultsPath: Quickshell.shellPath("defaults")
+    property string scriptsPath: Quickshell.shellPath("scripts") // Do not use FileUtils.trimFileProtocol because it is used with file:// too in other places. (same for above)
+    property string assetsPath: Quickshell.shellPath("assets")
     // Cleanup on init
     Component.onCompleted: {
         Quickshell.execDetached(["mkdir", "-p", `${shellConfig}`])
