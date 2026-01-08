@@ -45,9 +45,9 @@ Key goals:
 
 | Top Bar                                         | Bottom Bar                                           |
 |--------------------------------------------------|----------------------------------------------------|
-| ![TopBar](/previews/1.png)                       | ![BottomBar](/previews/2.png)                        |
+| ![TopBar](/previews/3.png)                       | ![BottomBar](/previews/2.png)                        |
 | **Left Bar**                                         | **Right Bar**                                           |
-| ![LeftBar](/previews/3.png)                       | ![RightBar](/previews/4.png)                        |
+| ![LeftBar](/previews/1.png)                       | ![RightBar](/previews/4.png)                        |
 
 </div>
 
