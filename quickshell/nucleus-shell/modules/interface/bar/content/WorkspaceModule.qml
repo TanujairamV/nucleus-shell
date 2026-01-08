@@ -1,4 +1,3 @@
-import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
@@ -165,7 +164,7 @@ Item {
                     width: 26
                     height: 26
 
-                    Rectangle {
+                    ClippingRectangle {
                         id: iconContainer
 
                         anchors.centerIn: parent
@@ -174,7 +173,6 @@ Item {
                         color: "transparent"
                         radius: width / 2
                         clip: true
-                        layer.enabled: true
 
                         IconImage {
                             id: appIcon
@@ -186,16 +184,6 @@ Item {
                                 const win = Hyprland.focusedWindowForWorkspace(index + 1);
                                 return win ? Quickshell.iconPath(FileUtils.resolveIcon(win.class)) : "";
                             }
-                        }
-
-                        layer.effect: OpacityMask {
-
-                            maskSource: Rectangle {
-                                width: iconContainer.width
-                                height: iconContainer.height
-                                radius: iconContainer.width / 2
-                            }
-
                         }
 
                     }

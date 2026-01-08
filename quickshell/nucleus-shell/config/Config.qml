@@ -19,7 +19,7 @@ Singleton {
         // start from the JsonAdapter alias
         let obj = root.runtime;
         if (!obj) {
-            console.warn("Shell.setNestedValue: flags adapter not available yet for key", nestedKey);
+            console.warn("Shell.updateKey: flags adapter not available yet for key", nestedKey);
             return;
         }
 
@@ -31,7 +31,7 @@ Singleton {
             }
             obj = obj[k];
             if (!obj) {
-                console.warn("Shell.setNestedValue: failed to create/resolve parent for key", k);
+                console.warn("Shell.updateKey: failed to create/resolve parent for key", k);
                 return;
             }
         }
@@ -52,7 +52,7 @@ Singleton {
         try {
             obj[keys[keys.length - 1]] = convertedValue;
         } catch (e) {
-            console.warn("Config.setNestedValue: failed to set key", nestedKey, e);
+            console.warn("Config.updateKey: failed to set key", nestedKey, e);
         }
     }
 
@@ -110,6 +110,10 @@ Singleton {
                 }
             }
 
+            property JsonObject misc: JsonObject {
+                property url pfp: Quickshell.env("HOME") + "/.face"
+            }
+
             property JsonObject notifications: JsonObject {
                 property bool enabled: true 
                 property bool doNotDisturb: false
@@ -118,6 +122,8 @@ Singleton {
 
             property JsonObject overlays: JsonObject {
                 property bool enabled: true 
+                property bool volumeOverlayEnabled: true 
+                property bool brightnessOverlayEnabled: true
                 property string volumeOverlayPosition: "top" // top, top-left, top-right, bottom, bottom-left, bottom-right
                 property string brightnessOverlayPosition: "top" // top, top-left, top-right, bottom, bottom-left, bottom-right
             }

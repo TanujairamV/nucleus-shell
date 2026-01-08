@@ -33,7 +33,7 @@ Scope {
         active: root.shouldShowOsd
 
         PanelWindow {
-            visible: GlobalStates.osdNeeded
+            visible: Config.runtime.overlays.brightnessOverlayEnabled && Config.runtime.overlays.enabled
             WlrLayershell.namespace: "nucleus:brightnessOsd"
             exclusiveZone: 0
 			anchors.top: Config.runtime.overlays.brightnessOverlayPosition.startsWith("top")

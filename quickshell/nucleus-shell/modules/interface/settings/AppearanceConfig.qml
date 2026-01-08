@@ -1,0 +1,201 @@
+import QtQuick
+import QtQuick.Layouts
+import Quickshell
+import Quickshell.Io
+import Quickshell.Widgets
+import qs.config
+import qs.modules.widgets
+import qs.services
+
+ContentMenu {
+    title: "Appearance"
+    description: "Adjust how the desktop looks like."
+
+    ContentCard {
+        ColumnLayout {
+            Layout.fillWidth: true
+            spacing: 16
+
+            // Title and description
+            ColumnLayout {
+                spacing: 4
+
+                StyledText {
+                    text: "Select Theme"
+                    font.pixelSize: 16
+                }
+
+                StyledText {
+                    text: "Choose between dark or light mode."
+                    font.pixelSize: 12
+                    color: "#888888"
+                }
+
+            }
+
+            // Buttons row
+            RowLayout {
+                Layout.leftMargin: 15
+                Layout.fillWidth: true
+                Layout.alignment: Qt.AlignHCenter
+                spacing: 16
+
+                StyledButton {
+                    Layout.preferredHeight: 300
+                    Layout.preferredWidth: 460
+                    Layout.maximumHeight: 400
+                    Layout.maximumWidth: 500
+                    icon: "dark_mode"
+                    iconSize: 64
+                    checked: Config.runtime.appearance.theme === "dark"
+                    hoverEnabled: true
+                    onClicked: {
+                        Quickshell.execDetached(["qs", "-c", "nucleus-shell", "ipc", "call", "global", "regenColors"]);
+                        Config.updateKey("appearance.theme", "dark");
+                    }
+                }
+
+                StyledButton {
+                    Layout.preferredHeight: 300
+                    Layout.preferredWidth: 460
+                    Layout.maximumHeight: 400
+                    Layout.maximumWidth: 500
+                    icon: "light_mode"
+                    iconSize: 64
+                    checked: Config.runtime.appearance.theme === "light"
+                    hoverEnabled: true
+                    onClicked: {
+                        Quickshell.execDetached(["qs", "-c", "nucleus-shell", "ipc", "call", "global", "regenColors"]);
+                        Config.updateKey("appearance.theme", "light");
+                    }
+                }
+
+            }
+
+        }
+
+    }
+
+    ContentCard {
+        ColumnLayout {
+            StyledText {
+                text: "Color Generation Schemes:"
+                font.pixelSize: 16
+            }
+
+            GridLayout {
+                rows: 2
+                columns: 4
+
+                Repeater {
+                    model: ["scheme-content", "scheme-expressive", "scheme-fidelity", "scheme-fruit-salad", "scheme-monochrome", "scheme-neutral", "scheme-rainbow", "scheme-tonal-spot"]
+
+                    delegate: StyledButton {
+                        text: modelData
+                        clip: true
+                        Layout.fillWidth: true
+                        implicitWidth: 0
+                        // Selected state
+                        checked: Config.runtime.appearance.colors.scheme === modelData
+                        // Rounded corners depending on whether this is first/last item
+                        topLeftRadius: index === 0 ? Appearance.rounding.normal : Appearance.rounding.small
+                        bottomLeftRadius: index === 0 ? Appearance.rounding.normal : Appearance.rounding.small
+                        topRightRadius: index === (model.count - 1) ? Appearance.rounding.normal : Appearance.rounding.small
+                        bottomRightRadius: index === (model.count - 1) ? Appearance.rounding.normal : Appearance.rounding.small
+                        onClicked: {
+                            Config.updateKey("appearance.colors.scheme", modelData);
+                            Quickshell.execDetached(["qs", "-c", "nucleus-shell", "ipc", "call", "global", "regenColors"]);
+                        }
+                    }
+
+                }
+
+            }
+
+            StyledSwitchOption {
+                title: "Tint Icons"
+                description: "Either tint icons across the shell or keep them colorized."
+                prefField: "appearance.tintIcons"
+            }
+
+            StyledSwitchOption {
+                title: "User Wide Color Generation"
+                description: "Run matugen user wide or shell wide."
+                prefField: "appearance.colors.runMatugenUserWide"
+            }
+
+        }
+
+    }
+
+    ContentCard {
+        StyledText {
+            text: "Clock"
+            font.pixelSize: 20
+            font.bold: true
+        }
+
+        StyledSwitchOption {
+            title: "Show Clock"
+            description: "Whether to show or disable the clock on the background."
+            prefField: "appearance.background.clock.enabled"
+        }
+
+        StyledText {
+            text: "Clock Position"
+            font.pixelSize: 16
+            font.bold: true
+        }
+
+        RowLayout {
+            id: clockPositionSelector
+
+            property string title: "Clock Position"
+            property string description: "Choose where the clock appears on the background."
+            property string prefField: ''
+
+            ColumnLayout {
+                StyledText {
+                    text: clockPositionSelector.title
+                    font.pixelSize: 16
+                }
+
+                StyledText {
+                    text: clockPositionSelector.description
+                    font.pixelSize: 12
+                }
+
+            }
+
+            Item {
+                Layout.fillWidth: true
+            }
+
+            StyledDropDown {
+                label: "Position"
+                model: ["Top Left", "Top Right", "Bottom Left", "Bottom Right"]
+                // Set initial index based on Config value
+                currentIndex: {
+                    switch (Config.runtime.appearance.background.clock.position.toLowerCase()) {
+                    case "top-left":
+                        return 0;
+                    case "top-right":
+                        return 1;
+                    case "bottom-left":
+                        return 2;
+                    case "bottom-right":
+                        return 3;
+                    default:
+                        return 0;
+                    }
+                }
+                onSelectedIndexChanged: (index) => {
+                    Config.updateKey("appearance.background.clock.position", model[index].toLowerCase().replace(" ", "-"));
+                }
+            }
+
+        }
+
+    }
+
+}

@@ -1,7 +1,8 @@
-import Qt5Compat.GraphicalEffects
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Qt5Compat.GraphicalEffects
+import Quickshell.Widgets
 import Quickshell.Io
 import qs.config
 import qs.modules.functions
@@ -46,7 +47,7 @@ Item {
         anchors.centerIn: parent
 
         // Icon button with rounded background
-        Rectangle {
+        ClippingRectangle {
             id: iconButton
 
             width: 24
@@ -61,7 +62,7 @@ Item {
                 id: art
 
                 anchors.fill: parent
-                source: (status !== Image.Error || Mpris.artUrl !== "") ? Mpris.artUrl : Directories.assetsPath + "/svgs/music.svg"
+                source: (Mpris.artUrl !== "") ? Mpris.artUrl : Directories.assetsPath + "/svgs/music.svg"
                 layer.enabled: true
 
                 layer.effect: ColorOverlay {
@@ -82,15 +83,6 @@ Item {
                 onExited: iconButton.opacity = 0.9
             }
 
-            layer.effect: OpacityMask {
-
-                maskSource: Rectangle {
-                    width: iconButton.width
-                    height: iconButton.height
-                    radius: iconButton.width / 2
-                }
-
-            }
 
             RotationAnimation on rotation {
                 from: 0

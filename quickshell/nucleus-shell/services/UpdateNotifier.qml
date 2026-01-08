@@ -6,7 +6,7 @@ import qs.config
 
 Item {
     id: updater
-
+    // Will not be used for now.
     // Add 'v' arg to default local version because it is not stored
     // as vX.Y.Z but X.Y.Z while on github its published as vX.Y.Z
 

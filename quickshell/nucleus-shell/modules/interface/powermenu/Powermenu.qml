@@ -151,7 +151,7 @@ PanelWindow {
         property string buttonIcon
 
         icon: buttonIcon
-        icon_size: 50
+        iconSize: 50
         width: powermenu.implicitWidth / 3.4
         height: powermenu.implicitHeight / 2.3
         radius: beingHovered ? Appearance.rounding.verylarge + 40 : Appearance.rounding.verylarge

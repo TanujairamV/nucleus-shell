@@ -8,7 +8,7 @@ Control {
     id: root
     property alias text: label.text
     property string icon: ""
-    property int icon_size: 20
+    property int iconSize: 20
     property alias radius: background.radius
     property alias topLeftRadius: background.topLeftRadius
     property alias topRightRadius: background.topRightRadius
@@ -63,7 +63,7 @@ Control {
             MaterialSymbol {
                 visible: root.icon !== ""
                 icon: root.icon
-                iconSize: root.icon_size
+                iconSize: root.iconSize
                 color: root.text_color
                 anchors.verticalCenter: parent.verticalCenter
                 Behavior on color {
