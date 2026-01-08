@@ -2,7 +2,8 @@
 
 This section describes **how collaborators should work on this repository**.
 
-> **Important:** All work is done in feature branches; **direct pushes to `main` are not allowed**.
+> [!IMPORTANT]
+> * All work is done in feature branches; **direct pushes to `main` are not allowed**.
 
 ---
 
