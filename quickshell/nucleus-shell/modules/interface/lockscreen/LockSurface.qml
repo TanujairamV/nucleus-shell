@@ -108,8 +108,6 @@ Rectangle {
         RowLayout {
             StyledTextField {
                 id: passwordBox
-
-                filled: false
                 implicitWidth: 300
                 padding: 10
                 placeholder: root.context.showFailure ? "Incorrect Password" : "Enter Password"
