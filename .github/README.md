@@ -14,12 +14,7 @@
 </div>
 
 ---
-
-<div align="center">
-  
-## ✦ Overview ✦
-
-</div>
+<h2 align="center">✦ Overview ✦ </h2>
 
 #### A shell built to get things done.
 
@@ -29,17 +24,13 @@ Key goals:
 - Composable modules for prompts, completions, and UI widgets
 
 > [!IMPORTANT]
-> * The name of the repo has been changed from "aelyx-shell" to "nucleus-shell" due to copyright reasons.
 > * If you want to access the older releases refer to the [archive branch](https://github.com/xZepyx/nucleus-shell/tree/archive)
 > * `install/update.sh` script will not function, including several others. (create a issue if needed.)
 > * You can also join the [discord server](https://discord.gg/eRDPxNqnPZ) for help.
 ---
 
-<div align="center">
-  
-## ✦ Previews ✦
+<h2 align="center">✦ Previews ✦</h2>
 
-</div>
 
 <div align="center">
 
@@ -53,11 +44,8 @@ Key goals:
 
 ---
 
-<div align="center">
-  
-## ✦ Repository layout ✦
+<h2 align="center">✦ Repository layout ✦</h2>
 
-</div>
 
 - /dots/           — Primary shell dotfiles (core modules)
 - /dots-extra/     — Optional dotfiles, themes, and wallpapers
@@ -68,11 +56,8 @@ Key goals:
 
 ---
 
-<div align="center">
-  
-## ✦ Installation (automatic recommended) ✦
+<h2 align="center">✦ Installation ✦</h2>
 
-</div>
 
 Follow these steps to install the collection. The automated setup is conservative and will prompt before making destructive changes.
 
@@ -101,11 +86,7 @@ Notes:
 
 ---
 
-<div align="center">
-  
-## ✦ Configuration & customization ✦
-
-</div>
+<h2 align="center">✦ Configuration &amp; customization ✦</h2>
 
 - Primary config: `~/.local/share/nucleus/user/config.json`
 - Modular settings: prompt, completion, and widget modules are separated for easy replacement.
@@ -115,11 +96,7 @@ Notes:
 
 ---
 
-<div align="center">
-  
-## ✦ Recommended environment ✦
-
-</div>
+<h2 align="center">✦ Recommended environment ✦</h2>
 
 - Compositor: Hyprland
 - Terminal: Kitty
@@ -127,11 +104,7 @@ Notes:
 
 ---
 
-<div align="center">
-  
-## ✦ Troubleshooting ✦
-
-</div>
+<h2 align="center">✦ Troubleshooting ✦</h2>
 
 - Missing/Unloaded Modules:
   - Ensure the module file is loaded in the correct order. Check `~/.config/quickshell/shell.qml`.
@@ -146,16 +119,13 @@ Notes:
 
 ---
 
-<div align="center">
-  
-## ✦ To-Do ✦
+<h2 align="center">✦ To-Do ✦</h2>
 
-</div>
-
-- Redesign config layout and widget system for improved modularity and discoverability | Done
-- Add more curated optional modules and theme variants
-- Improve installer prompts and backup behavior | Done
-- Improve shell performance (currently a big laggy on my machine)
+- [x] Redesign config layout and widget system for improved modularity and discoverability
+- [ ] Add more curated optional modules and theme variants 
+- [x] Improve installer prompts and backup behavior
+- [ ] Add inbuilt-ai
+- [x] Improve shell performance (currently a big laggy on my machine)
 
 ---
 <div align="center">
@@ -169,15 +139,11 @@ Notes:
  </picture>
 </a>
 
+</div>
 
 ---
 
-<div align="center">
-
-  
-## ✦ Contributing ✦
-
-</div>
+<h2 align="center">✦ Contributing ✦</h2>
 
 Contributions are welcome. When contributing:
 - Open concise issues after confirming the problem isn't caused by local configuration.
@@ -189,33 +155,21 @@ Contributions are welcome. When contributing:
 
 ---
 
-<div align="center">
-  
-## ✦ Maintainer ✦
-
-</div>
+<h2 align="center">✦ Maintainer ✦</h2>
 
 - Maintainer: xZepyx (Aditya Yadav) 
 - Contact: [zepyxunderscore@gmail.com](mailto:zepyxunderscore@gmail.com)
 
 ---
 
-<div align="center">
-  
-## ✦ Acknowledgments ✦
-
-</div>
+<h2 align="center">✦ Acknowledgments ✦</h2>
 
 - QuickShell and its contributors
 - Hyprland and its developers/contributors
 
 ---
 
-<div align="center">
-  
-## ✦ Inspiration/Copying ✦
-
-</div>
+<h2 align="center">✦ Inspiration / Copying ✦</h2>
 
 #### I did copy some code from other repositories and took design inspirations which are listed here:
 * [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) (Copied some services, took some design inspirations)
@@ -226,11 +180,7 @@ Contributions are welcome. When contributing:
 
 ---
 
-<div align="center">
-  
-## ✦ License ✦
-
-</div>
+<h2 align="center">✦ License ✦</h2>
 
 © 2025 xZepyx (Aditya Yadav) — Licensed under the MIT License. See `license/` for details.
 
