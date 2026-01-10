@@ -29,7 +29,7 @@ Key goals:
 > * You can also join the [discord server](https://discord.gg/eRDPxNqnPZ) for help.
 > * **Before reporting an issue:**
   If you encounter a problem in the current release, please first test against the latest source code by cloning the repository (`git clone ...`). This ensures you are not reporting an issue that has already been fixed.
-  Only open an issue if the problem is still reproducible on the latest source. Note that the source version may be unstable and is intended for testing purposes.
+  Only open an issue if the problem is still reproducible on the latest source.
 
 ---
 
