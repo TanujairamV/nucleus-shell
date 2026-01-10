@@ -30,7 +30,7 @@ Key goals:
 > * **Before reporting an issue:**
   If you encounter a problem in the current release, please first test against the latest source code by cloning the repository (`git clone ...`). This ensures you are not reporting an issue that has already been fixed.
   Only open an issue if the problem is still reproducible on the latest source.
-
+> * Visit the [colorschemes](https://github.com/xZepyx/nucleus-colorschemes) repo to get some custom themes for nucleus-shell
 ---
 
 <h2 align="center">✦ Previews ✦</h2>
