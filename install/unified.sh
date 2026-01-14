@@ -19,4 +19,9 @@ EOF
 echo -e "${RESET}"
 
 bash "$ROOT_DIR/pkg.sh"
-bash "$ROOT_DIR/files.sh"
+
+mkdir -p ~/.config/quickshell/nucleus-shell
+cp -r ../quickshell/nucleus-shell/* ~/.config/quickshell/nucleus-shell
+
+echo "Finished!"
+echo "Check ~/.config/quickshell/nucleus-shell/* exists to confirm installation."
