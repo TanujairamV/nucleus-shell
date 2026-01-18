@@ -79,16 +79,20 @@ Scope {
                 "label": "Notifications",
                 "page": 7
             }, {
+                "icon": "extension",
+                "label": "Plugins",
+                "page": 8
+            }, {
                 "icon": "build",
                 "label": "Miscellaneous",
-                "page": 8
+                "page": 9
             }, {
                 "header": true,
                 "label": "About"
             }, {
                 "icon": "info",
                 "label": "About",
-                "page": 9
+                "page": 10
             }]
 
             width: 1280
@@ -135,6 +139,7 @@ Scope {
 
                                 Behavior on opacity {
                                     enabled: Config.runtime.appearance.animations.enabled
+
                                     NumberAnimation {
                                         duration: Appearance.animation.durations.small
                                     }
@@ -266,6 +271,7 @@ Scope {
 
                                             Behavior on opacity {
                                                 enabled: Config.runtime.appearance.animations.enabled
+
                                                 NumberAnimation {
                                                     duration: Appearance.animation.durations.small
                                                 }
@@ -298,6 +304,7 @@ Scope {
 
                     Behavior on width {
                         enabled: Config.runtime.appearance.animations.enabled
+
                         NumberAnimation {
                             duration: Appearance.animation.durations.normal
                             easing.type: Easing.InOutCubic
@@ -338,6 +345,9 @@ Scope {
                     }
 
                     NotificationConfig {
+                    }
+
+                    Plugins { // Different name for clarity between plugins/PluginConfig.qml
                     }
 
                     MiscConfig {

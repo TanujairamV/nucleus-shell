@@ -2,6 +2,7 @@ import Quickshell
 import QtQuick 
 
 import qs.config
+import qs.plugins
 import qs.services
 import qs.modules.interface.bar
 import qs.modules.interface.background
@@ -39,5 +40,7 @@ ShellRoot {
     LockScreen { }
 
     UpdateNotifier { }
+
+    PluginHost { }
 
 }

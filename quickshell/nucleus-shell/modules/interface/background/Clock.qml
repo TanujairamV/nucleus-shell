@@ -94,7 +94,7 @@ Scope {
                     width: clock.width / 1.1
                     height: clock.height / 1.1
 
-                    property var shapes: [MaterialShapes.getCookie7Sided, MaterialShapes.getCookie9Sided, MaterialShapes.getCookie12Sided, MaterialShapes.getPixelCircle]
+                    property var shapes: [MaterialShapes.getCookie7Sided, MaterialShapes.getCookie9Sided, MaterialShapes.getCookie12Sided, MaterialShapes.getPixelCircle, MaterialShapes.getCircle, MaterialShapes.getGhostish]
 
                     // Polygon
                     MorphedPolygon {
@@ -102,7 +102,6 @@ Scope {
 
                         anchors.fill: parent
                         color: Appearance.m3colors.m3surfaceContainerLow
-                        // Nonzero smoothing of corner rounding gives squircle shape
                         roundedPolygon: analogClockContainer.shapes[Config.runtime.appearance.background.clock.shape]()
                     }
 

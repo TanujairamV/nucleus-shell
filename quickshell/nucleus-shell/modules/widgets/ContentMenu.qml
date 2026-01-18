@@ -7,7 +7,6 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
 
-
     opacity: visible ? 1 : 0
     scale: visible ? 1 : 0.95
 

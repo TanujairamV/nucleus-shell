@@ -4,73 +4,94 @@ import QtQuick
 import QtCore
 import Quickshell
 import Quickshell.Io
+import qs.plugins
 
 Singleton {
     id: root
     property string filePath: Directories.shellConfigPath
     property alias runtime: configOptionsJsonAdapter
     property bool initialized: false
-    property int readWriteDelay: 50 // milliseconds
+    property int readWriteDelay: 50
     property bool blockWrites: false
 
     function updateKey(nestedKey, value) {
-        let keys = nestedKey.split(".");
-
-        // start from the JsonAdapter alias
-        let obj = root.runtime;
+        let keys = nestedKey.split(".")
+        let obj = root.runtime
         if (!obj) {
-            console.warn("Shell.updateKey: flags adapter not available yet for key", nestedKey);
-            return;
+            console.warn("Config.updateKey: adapter not available for key", nestedKey)
+            return
         }
 
-        // Traverse to the target parent object, creating intermediate objects if needed
         for (let i = 0; i < keys.length - 1; ++i) {
-            let k = keys[i];
+            let k = keys[i]
             if (obj[k] === undefined || obj[k] === null || typeof obj[k] !== "object") {
-                obj[k] = {};
+                obj[k] = new JsonObject()  // Use JsonObject for serialization
             }
-            obj = obj[k];
+            obj = obj[k]
             if (!obj) {
-                console.warn("Shell.updateKey: failed to create/resolve parent for key", k);
-                return;
+                console.warn("Config.updateKey: failed to resolve", k)
+                return
             }
         }
 
-        // Convert string boolean/numeric values to native types when safe
-        let convertedValue = value;
+        let convertedValue = value
         if (typeof value === "string") {
-            let trimmed = value.trim();
+            let trimmed = value.trim()
             if (trimmed === "true" || trimmed === "false" || (!isNaN(Number(trimmed)) && trimmed !== "")) {
                 try {
-                    convertedValue = JSON.parse(trimmed);
+                    convertedValue = JSON.parse(trimmed)
                 } catch (e) {
-                    convertedValue = value;
+                    convertedValue = value
                 }
             }
         }
 
-        try {
-            obj[keys[keys.length - 1]] = convertedValue;
-        } catch (e) {
-            console.warn("Config.updateKey: failed to set key", nestedKey, e);
-        }
+        obj[keys[keys.length - 1]] = convertedValue
+        configFileView.adapterUpdated()
     }
 
-    Timer {
-        id: fileReloadTimer
-        interval: root.readWriteDelay
-        repeat: false
-        onTriggered: {
-            configFileView.reload();
+    function loadPluginConfigs(pluginNames) {
+        console.log("Loading plugins:", pluginNames)
+        
+        for (let i = 0; i < pluginNames.length; i++) {
+            const name = pluginNames[i]
+            const path = Directories.shellConfig + "/plugins/" + name + "/PluginConfigData.qml"
+
+            const component = Qt.createComponent(path)
+            if (component.status === Component.Error) {
+                console.warn("Plugin failed:", path, component.errorString())
+                continue
+            }
+
+            if (component.status === Component.Ready) {
+                const pluginObj = component.createObject(root)
+                if (!pluginObj) {
+                    console.warn("Failed to create plugin object:", name)
+                    continue
+                }
+
+                if (!pluginObj.defaults) pluginObj.defaults = { enabled: false }
+                
+                root.updateKey("plugins." + name, pluginObj.defaults)
+                console.log("Loaded plugin:", name, pluginObj.defaults)
+                
+                pluginObj.destroy()
+                component.destroy()
+            }
         }
+        console.log("Plugins loaded into runtime")
     }
 
+    Timer { id: fileReloadTimer; interval: root.readWriteDelay; repeat: false; onTriggered: configFileView.reload() }
+    Timer { id: fileWriteTimer; interval: root.readWriteDelay; repeat: false; onTriggered: configFileView.writeAdapter() }
+
     Timer {
-        id: fileWriteTimer
-        interval: root.readWriteDelay
+        interval: 1200
+        running: true
         repeat: false
         onTriggered: {
-            configFileView.writeAdapter();
+            console.log("Plugin timer triggered")
+            root.loadPluginConfigs(PluginLoader.pluginNames)
         }
     }
 
@@ -81,27 +102,21 @@ Singleton {
         blockWrites: root.blockWrites
         onFileChanged: fileReloadTimer.restart()
         onAdapterUpdated: fileWriteTimer.restart()
-        onLoaded: {
-            root.initialized = true
-        } 
+        onLoaded: { root.initialized = true }
         onLoadFailed: error => {
-            if (error == FileViewError.FileNotFound) {
-                writeAdapter();
-            }
+            if (error == FileViewError.FileNotFound) writeAdapter()
         }
 
         JsonAdapter {
             id: configOptionsJsonAdapter
+            
+            property var plugins: ({}) // dynamic plugins config variable
 
             property JsonObject appearance: JsonObject {
                 property string theme: "dark"
                 property bool tintIcons: false
-                property JsonObject animations: JsonObject {
-                    property bool enabled: true;
-                }
-                property JsonObject rounding: JsonObject {
-                    property double factor: 0.6 // 0 to 1
-                }
+                property JsonObject animations: JsonObject { property bool enabled: true }
+                property JsonObject rounding: JsonObject { property double factor: 0.6 }
                 property JsonObject colors: JsonObject {
                     property string scheme: "catppuccin-lavender"
                     property string matugenScheme: "scheme-neutral"
@@ -115,48 +130,41 @@ Singleton {
                         property bool enabled: true 
                         property bool isAnalog: true
                         property int edgeSpacing: 50
-                        property int shape: 1 // 1 = Cookie 7 Sided, 2 = Cookie 9 Sided, 3 = Cookie 12 Sided, 4 = Pixelated Circle
-                        property string position: "bottom-left" // top-left, top-right, bottom-right, bottom-left
+                        property int shape: 1
+                        property string position: "bottom-left"
                     }
                     property JsonObject slideshow: JsonObject {
                         property bool enabled: false
                         property bool includeSubfolders: true
-                        property int interval: 5 // minutes
+                        property int interval: 5
                         property string folder: ""
                     }
                 }
             }
 
-            property JsonObject misc: JsonObject {
-                property url pfp: Quickshell.env("HOME") + "/.face.icon"
-            }
-
+            property JsonObject misc: JsonObject { property url pfp: Quickshell.env("HOME") + "/.face.icon" }
             property JsonObject notifications: JsonObject {
                 property bool enabled: true 
                 property bool doNotDisturb: false
-                property string position: "center" // center, left(top), right(top)  
+                property string position: "center"
             }
-
             property JsonObject shell: JsonObject {
                 property string version: "0.2.0"
                 property string releaseChannel: "stable"
             }
-
             property JsonObject overlays: JsonObject {
                 property bool enabled: true 
                 property bool volumeOverlayEnabled: true 
                 property bool brightnessOverlayEnabled: true
-                property string volumeOverlayPosition: "top" // top, top-left, top-right, bottom, bottom-left, bottom-right
-                property string brightnessOverlayPosition: "top" // top, top-left, top-right, bottom, bottom-left, bottom-right
+                property string volumeOverlayPosition: "top"
+                property string brightnessOverlayPosition: "top"
             }
-
             property JsonObject launcher: JsonObject {
                 property bool fuzzySearchEnabled: true
                 property string webSearchEngine: "google"
             }
-
             property JsonObject bar: JsonObject {
-                property string position: "top" // left, right, top and bottom
+                property string position: "top"
                 property bool enabled: true
                 property bool merged: false
                 property bool floating: false

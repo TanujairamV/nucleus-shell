@@ -1,0 +1,33 @@
+pragma Singleton
+import QtQuick
+import Quickshell
+import Quickshell.Io
+import qs.config
+
+Item {
+    id: root
+
+    property var pluginNames: []
+
+    Timer {
+        interval: 2000
+        running: true
+        repeat: true
+        onTriggered: listPluginsProc.running = true
+    }
+
+    Process {
+        id: listPluginsProc
+        // List directories under ~/.config/nucleus-shell/plugins
+        command: ["sh", "-c", "ls -1 ~/.config/nucleus-shell/plugins"]
+        running: true
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const names = text.split("\n").filter(s => s.trim() !== "")
+                root.pluginNames = names
+            }
+        }
+
+    }
+}

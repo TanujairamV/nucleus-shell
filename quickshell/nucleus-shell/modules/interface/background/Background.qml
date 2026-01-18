@@ -105,7 +105,6 @@ Scope {
 
                     // Fade Out
                     NumberAnimation {
-                        running: Config.runtime.appearance.animations.enabled
                         target: currentImage
                         property: "opacity"
                         to: 0
@@ -115,7 +114,6 @@ Scope {
 
                     // Fade In
                     NumberAnimation {
-                        running: Config.runtime.appearance.animations.enabled
                         target: nextImage
                         property: "opacity"
                         to: 1

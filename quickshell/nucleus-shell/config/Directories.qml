@@ -30,5 +30,6 @@ Singleton {
     Component.onCompleted: {
         Quickshell.execDetached(["mkdir", "-p", `${shellConfig}`])
         Quickshell.execDetached(["mkdir", "-p", `${shellConfig}/config`])
+        Quickshell.execDetached(["mkdir", "-p", `${shellConfig}/plugins`])
     }
 }
