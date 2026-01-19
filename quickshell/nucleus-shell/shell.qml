@@ -19,25 +19,57 @@ ShellRoot {
 
     // Load modules
 
-    Bar { }
+    LazyLoader {
+        id: barLoader
+        source: Contracts.bar
+        active: true
+    }
 
-    Background { }
+    LazyLoader {
+        id: backgroundLoader
+        source: Contracts.background
+        active: true
+    }
 
-    Powermenu { }
+    LazyLoader {
+        id: powerMenuLoader
+        source: Contracts.powerMenu
+        active: true
+    }
 
-    Launcher { }
+    LazyLoader {
+        id: launcherLoader
+        source: Contracts.launcher
+        active: true
+    }
 
-    Notifications { }
+    LazyLoader {
+        id: notificationsLoader
+        source: Contracts.notifications
+        active: true
+    }
 
-    Overlays { }
+    LazyLoader {
+        id: overlaysLoader
+        source: Contracts.overlays
+        active: true
+    }
 
-    SidebarRight { }
+    LazyLoader {
+        id: sidebarRightLoader
+        source: Contracts.sidebarRight
+        active: true
+    }
+
+    LazyLoader {
+        id: lockScreenLoader
+        source: Contracts.lockScreen
+        active: true
+    }
 
     Settings { }
 
     Ipc { }
-
-    LockScreen { }
 
     UpdateNotifier { }
 
