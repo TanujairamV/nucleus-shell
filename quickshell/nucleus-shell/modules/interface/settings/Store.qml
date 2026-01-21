@@ -22,8 +22,8 @@ ContentMenu {
                 model: PluginParser.model
 
                 delegate: StyledRect {
-                    Layout.preferredWidth: parent.width / 2.4
-                    Layout.preferredHeight: 500
+                    Layout.preferredWidth: parent.width / 2.08
+                    Layout.preferredHeight: 590
                     radius: 10
                     color: Appearance.m3colors.m3surfaceContainer
 
@@ -34,7 +34,7 @@ ContentMenu {
 
                         ClippingRectangle {
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 300
+                            Layout.preferredHeight: 400
                             radius: Appearance.rounding.small
 
                             Image {
