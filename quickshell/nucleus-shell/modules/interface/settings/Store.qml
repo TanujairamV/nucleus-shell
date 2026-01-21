@@ -13,7 +13,7 @@ ContentMenu {
 
     ContentCard {
         GridLayout {
-            columns: PluginLoader.plugins.length === 1 ? 1 : 2
+            columns: 2
             columnSpacing: 16
             rowSpacing: 16
             anchors.fill: parent
