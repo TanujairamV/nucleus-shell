@@ -1,3 +1,4 @@
+
 <div align="center">
 
 # ✦ nucleus-shell ✦
@@ -178,7 +179,7 @@ Contributions are welcome. When contributing:
 * [etherealboi/twinshell](https://github.com/etherealboi/twinshell) (Some widgets)
 * [bgibson72/yahr-quickshell](https://github.com/bgibson72/yahr-quickshell) (A script that lists installed apps)
 * [caelestia-dots/shell](https://github.com/caelestia-dots/shell) (No code but almost copied the vertical bar design)
-* [corecathx/whisker](https://github.com/corecathx/whisker) (Almost copied the settings app from his shell)
+* [corecathx/whisker](https://github.com/corecathx/whisker) (Took lots of inspiration and code)
 
 ---
 
