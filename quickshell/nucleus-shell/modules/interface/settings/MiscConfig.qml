@@ -20,33 +20,90 @@ ContentMenu {
 
         RowLayout {
             id: releaseChannelSelector
+
             property string title: "Release Channel"
             property string description: "Choose the release channel for updates."
             property string prefField: ''
 
             ColumnLayout {
-                StyledText { text: releaseChannelSelector.title; font.pixelSize: 16;  }
-                StyledText { text: releaseChannelSelector.description; font.pixelSize: 12; }
+                StyledText {
+                    text: releaseChannelSelector.title
+                    font.pixelSize: 16
+                }
+
+                StyledText {
+                    text: releaseChannelSelector.description
+                    font.pixelSize: 12
+                }
+
             }
-            Item { Layout.fillWidth: true }
+
+            Item {
+                Layout.fillWidth: true
+            }
 
             StyledDropDown {
                 label: "Type"
                 model: ["Stable", "Edge (indev)"]
-
                 currentIndex: Config.runtime.shell.releaseChannel === "edge" ? 1 : 0
-
                 onSelectedIndexChanged: (index) => {
-                    Config.updateKey(
-                        "shell.releaseChannel",
-                        index === 1 ? "edge" : "stable"
-                    )
-                    UpdateNotifier.notified = false
+                    Config.updateKey("shell.releaseChannel", index === 1 ? "edge" : "stable");
+                    UpdateNotifier.notified = false;
                 }
             }
-
 
         }
 
     }
+
+    ContentCard {
+        StyledText {
+            text: "Intelligence"
+            font.pixelSize: 20
+            font.bold: true
+        }
+
+        StyledSwitchOption {
+            title: "Enabled"
+            description: "Enable or disable intelligence."
+            prefField: "misc.intelligence.enabled"
+        }
+
+    }
+
+    ContentCard {
+        StyledText {
+            text: "Intelligence Bearer/API"
+            font.pixelSize: 20
+            font.bold: true
+        }
+
+        StyledTextField {
+            id: apiKeyTextField
+
+            clip: true
+            horizontalAlignment: Text.AlignLeft
+            placeholderText: Config.runtime.misc.intelligence.apiKey !== "" ? Config.runtime.misc.intelligence.apiKey : "Bearer Key"
+            Layout.fillWidth: true
+            Keys.onPressed: (event) => {
+                if (event.key === Qt.Key_S && (event.modifiers & Qt.ControlModifier)) {
+                    event.accepted = true;
+                    Config.updateKey("misc.intelligence.apiKey", apiKeyTextField.text);
+                    Quickshell.execDetached(["notify-send", "Saved Bearer/API Key"])
+                }
+            }
+            font.pixelSize: 16
+        }
+
+        Item {
+            width: 20
+        }
+
+        InfoCard {
+            title: "How to save the api key"
+            description: "In order to save the api key press Ctrl+S and it will save the api key to the config."
+        }
+
+    }
+
 }

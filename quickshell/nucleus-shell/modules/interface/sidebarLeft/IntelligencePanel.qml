@@ -13,9 +13,7 @@ import qs.services
 Item {
     id: root
 
-    property string currentChat: "default"
-    property string currentModel: "gpt-4o-mini"
-    property string pendingInput: ""
+    property bool initialChatSelected: false
 
     function appendMessage(sender, message) {
         messageModel.append({
@@ -25,26 +23,65 @@ Item {
         scrollToBottom();
     }
 
+    function updateChatsList(files) {
+        let existing = {
+        };
+        for (let i = 0; i < chatListModel.count; i++) existing[chatListModel.get(i).name] = true
+        for (let file of files) {
+            let name = file.trim();
+            if (!name.length)
+                continue;
+
+            if (name.endsWith(".txt"))
+                name = name.slice(0, -4);
+
+            if (!existing[name])
+                chatListModel.append({
+                "name": name
+            });
+
+            delete existing[name];
+        }
+        // remove chats that no longer exist
+        for (let name in existing) {
+            for (let i = 0; i < chatListModel.count; i++) {
+                if (chatListModel.get(i).name === name) {
+                    chatListModel.remove(i);
+                    break;
+                }
+            }
+        }
+        // ensure default exists
+        let hasDefault = false;
+        for (let i = 0; i < chatListModel.count; i++) if (chatListModel.get(i).name === "default") {
+            hasDefault = true;
+        }
+        if (!hasDefault) {
+            chatListModel.insert(0, {
+                "name": "default"
+            });
+            FileUtils.createFile(FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats/default.txt");
+        }
+    }
+
     function scrollToBottom() {
-        // Always scroll to end after appending
-        chatView.forceLayout();
         chatView.positionViewAtEnd();
     }
 
     function sendMessage() {
-        if (userInput.text === "" || zenithProcess.running)
+        if (userInput.text === "" || Zenith.loading)
             return ;
 
-        pendingInput = userInput.text;
-        appendMessage("You", pendingInput);
+        Zenith.pendingInput = userInput.text;
+        appendMessage("You", userInput.text);
         userInput.text = "";
-        zenithProcess.running = true;
+        Zenith.loading = true;
+        Zenith.send();
     }
 
     function loadChatHistory(chatName) {
         messageModel.clear();
-        chatLoadProcess.command = ["cat", FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats/" + chatName + ".txt"];
-        chatLoadProcess.running = true;
+        Zenith.loadChat(chatName);
     }
 
     function selectDefaultChat() {
@@ -57,12 +94,12 @@ Item {
         }
         if (defaultIndex !== -1) {
             chatSelector.currentIndex = defaultIndex;
-            root.currentChat = "default";
+            Zenith.currentChat = "default";
             loadChatHistory("default");
         } else if (chatListModel.count > 0) {
             chatSelector.currentIndex = 0;
-            root.currentChat = chatListModel.get(0).name;
-            loadChatHistory(root.currentChat);
+            Zenith.currentChat = chatListModel.get(0).name;
+            loadChatHistory(Zenith.currentChat);
         }
     }
 
@@ -76,11 +113,30 @@ Item {
         id: chatListModel
     }
 
+    ColumnLayout {
+        spacing: 8
+        anchors.centerIn: parent
+
+        StyledText {
+            visible: !Config.runtime.misc.intelligence.enabled
+            text: "Intelligence is disabled!"
+            Layout.leftMargin: 24
+            font.pixelSize: Appearance.font.size.huge
+        }
+
+        StyledText {
+            visible: !Config.runtime.misc.intelligence.enabled
+            text: "Go to the settings to enable intelligence"
+        }
+
+    }
+
     StyledRect {
         anchors.topMargin: 74
         radius: Appearance.rounding.normal
         anchors.fill: parent
         color: Appearance.m3colors.m3background
+        visible: Config.runtime.misc.intelligence.enabled
 
         ColumnLayout {
             anchors.fill: parent
@@ -99,11 +155,14 @@ Item {
                     textRole: "name"
                     Layout.preferredHeight: 40
                     onCurrentIndexChanged: {
+                        if (!initialChatSelected)
+                            return ;
+
                         if (currentIndex < 0 || currentIndex >= chatListModel.count)
                             return ;
 
                         let chatName = chatListModel.get(currentIndex).name;
-                        root.currentChat = chatName;
+                        Zenith.currentChat = chatName;
                         loadChatHistory(chatName);
                     }
                 }
@@ -112,13 +171,18 @@ Item {
                     icon: "add"
                     Layout.preferredWidth: 40
                     onClicked: {
-                        let name = "New Chat " + chatListModel.count;
-                        chatListModel.append({
-                            "name": name
+                        let name = "new-chat-" + chatListModel.count;
+                        let path = FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats/" + name + ".txt";
+                        FileUtils.createFile(path, function(success) {
+                            if (success) {
+                                chatListModel.append({
+                                    "name": name
+                                });
+                                chatSelector.currentIndex = chatListModel.count - 1;
+                                Zenith.currentChat = name;
+                                messageModel.clear();
+                            }
                         });
-                        chatSelector.currentIndex = chatListModel.count - 1;
-                        root.currentChat = name;
-                        messageModel.clear();
                     }
                 }
 
@@ -135,9 +199,13 @@ Item {
                     enabled: chatSelector.currentIndex >= 0 && chatSelector.currentText !== "default"
                     onClicked: {
                         let name = chatSelector.currentText;
-                        FileUtils.removeFile(Directories.config + "/zenith/chats/" + name + ".txt");
-                        chatListModel.remove(chatSelector.currentIndex);
-                        selectDefaultChat();
+                        let path = FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats/" + name + ".txt";
+                        FileUtils.removeFile(path, function(success) {
+                            if (success) {
+                                chatListModel.remove(chatSelector.currentIndex);
+                                selectDefaultChat();
+                            }
+                        });
                     }
                 }
 
@@ -151,17 +219,17 @@ Item {
                     id: modelSelector
 
                     Layout.fillWidth: true
-                    model: ["gpt-4o-mini", "gpt-3.5-turbo"]
+                    model: ["openai/gpt-4o","openai/gpt-4","openai/gpt-3.5-turbo","openai/gpt-4o-mini","anthropic/claude-3.5-sonnet","anthropic/claude-3-haiku","meta-llama/llama-3.3-70b-instruct:free","deepseek/deepseek-r1-0528:free","qwen/qwen3-coder:free"]
                     currentIndex: 0
                     Layout.preferredHeight: 40
-                    onCurrentTextChanged: root.currentModel = currentText
+                    onCurrentTextChanged: Zenith.currentModel = currentText
                 }
 
                 StyledButton {
                     icon: "fullscreen"
                     Layout.preferredWidth: 40
                     onClicked: {
-                        Globals.states.intelligenceWindowOpen = true;
+                        Quickshell.execDetached(["qs", "-c", "nucleus-shell", "ipc", "call", "intelligence", "openWindow"]);
                         Globals.visiblility.sidebarLeft = false;
                     }
                 }
@@ -188,7 +256,6 @@ Item {
                         clip: true
 
                         delegate: Item {
-                            property bool firstOfGroup: index === 0 || messageModel.get(index - 1).sender !== sender
                             property bool isCodeBlock: message.split("\n").length > 2 && message.includes("import ") // simple heuristic
 
                             width: chatView.width
@@ -208,13 +275,13 @@ Item {
                                 StyledRect {
                                     id: bubble
 
-                                    radius: firstOfGroup ? Appearance.rounding.normal : Appearance.rounding.unsharpenmore
+                                    radius: Appearance.rounding.normal
                                     color: sender === "You" ? Appearance.m3colors.m3primaryContainer : Appearance.m3colors.m3surfaceContainerHigh
                                     implicitWidth: Math.min(textItem.implicitWidth + 20, chatView.width * 0.8)
                                     implicitHeight: textItem.implicitHeight
                                     anchors.right: sender === "You" ? parent.right : undefined
                                     anchors.left: sender === "AI" ? parent.left : undefined
-                                    anchors.topMargin: firstOfGroup ? 6 : 2
+                                    anchors.topMargin: 2
 
                                     TextEdit {
                                         id: textItem
@@ -224,6 +291,7 @@ Item {
                                         textFormat: TextEdit.RichText
                                         readOnly: true // make it selectable but not editable
                                         font.pixelSize: 16
+                                        anchors.leftMargin: 12
                                         color: Appearance.syntaxHighlightingTheme
                                         padding: 8
                                         anchors.fill: parent
@@ -290,7 +358,7 @@ Item {
 
                     StyledButton {
                         text: "Send"
-                        enabled: userInput.text.trim().length > 0 && !zenithProcess.running
+                        enabled: userInput.text.trim().length > 0 && !Zenith.loading
                         opacity: enabled ? 1 : 0.5
                         onClicked: sendMessage()
                     }
@@ -329,7 +397,7 @@ Item {
                     id: renameInput
 
                     Layout.fillWidth: true
-                    placeholderText: "New chat name"
+                    placeholderText: "New name"
                     filled: false
                     highlight: false
                     text: chatSelector.currentText
@@ -358,14 +426,15 @@ Item {
                             let newName = renameInput.text.trim();
                             let oldPath = FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats/" + oldName + ".txt";
                             let newPath = FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats/" + newName + ".txt";
-                            // Rename file
-                            FileUtils.renameFile(oldPath, newPath);
-                            // Update model
-                            chatListModel.set(chatSelector.currentIndex, {
-                                "name": newName
+                            FileUtils.renameFile(oldPath, newPath, function(success) {
+                                if (success) {
+                                    chatListModel.set(chatSelector.currentIndex, {
+                                        "name": newName
+                                    });
+                                    Zenith.currentChat = newName;
+                                    renameDialog.close();
+                                }
                             });
-                            root.currentChat = newName;
-                            renameDialog.close();
                         }
                     }
 
@@ -391,7 +460,7 @@ Item {
 
         StyledText {
             text: "Thinking…"
-            visible: zenithProcess.running
+            visible: Zenith.loading
             color: Appearance.colors.colSubtext
             font.pixelSize: 14
 
@@ -406,93 +475,51 @@ Item {
 
     }
 
-    Process {
-        id: listChatsProcess
-
-        command: ["ls", FileUtils.trimFileProtocol(Directories.config) + "/zenith/chats"]
-        running: true
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                chatListModel.clear();
-                if (text.trim() === "") {
-                    chatListModel.append({
-                        "name": "default"
-                    });
-                } else {
-                    let files = text.trim().split("\n");
-                    for (let i = 0; i < files.length; i++) {
-                        if (files[i].endsWith(".txt"))
-                            chatListModel.append({
-                            "name": files[i].slice(0, -4)
-                        });
-
-                    }
-                }
+    Connections {
+        function onChatsListed(text) {
+            let lines = text.split(/\r?\n/);
+            updateChatsList(lines);
+            // only auto-select once
+            if (!initialChatSelected) {
                 selectDefaultChat();
+                initialChatSelected = true;
             }
         }
 
-    }
+        function onAiReply(text) {
+            appendMessage("AI", text.slice(5));
+            Zenith.loading = false;
+        }
 
-    Process {
-        id: chatLoadProcess
+        function onChatLoaded(text) {
+            let lines = text.split(/\r?\n/);
+            let batch = [];
+            for (let l of lines) {
+                let line = l.trim();
+                if (!line.length)
+                    continue;
 
-        stdout: StdioCollector {
-            onStreamFinished: {
-                let lines = text.split(/\r?\n/);
-                let batch = [];
-                for (let i = 0; i < lines.length; i++) {
-                    let line = lines[i].trim();
-                    if (line.length === 0)
-                        continue;
-
-                    // Match timestamped User/AI lines: [YYYY-MM-DD HH:MM:SS] User: message
-                    let userMatch = line.match(/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] User: (.*)$/);
-                    let aiMatch = line.match(/^\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\] AI: (.*)$/);
-                    if (userMatch) {
-                        batch.push({
-                            "sender": "You",
-                            "message": userMatch[1]
-                        });
-                    } else if (aiMatch) {
-                        batch.push({
-                            "sender": "AI",
-                            "message": aiMatch[1]
-                        });
-                    } else {
-                        // Continuation lines (for multi-line messages)
-                        if (batch.length > 0)
-                            batch[batch.length - 1].message += "\n" + line;
-
-                    }
-                }
-                // Append messages to model
-                Qt.callLater(function() {
-                    messageModel.clear();
-                    for (let i = 0; i < batch.length; i++) messageModel.append(batch[i])
-                    chatView.forceLayout();
-                    chatView.positionViewAtEnd();
+                let u = line.match(/^\[\d{4}-.*\] User: (.*)$/);
+                let a = line.match(/^\[\d{4}-.*\] AI: (.*)$/);
+                if (u)
+                    batch.push({
+                    "sender": "You",
+                    "message": u[1]
                 });
+                else if (a)
+                    batch.push({
+                    "sender": "AI",
+                    "message": a[1]
+                });
+                else if (batch.length)
+                    batch[batch.length - 1].message += "\n" + line;
             }
+            messageModel.clear();
+            for (let m of batch) messageModel.append(m)
+            scrollToBottom();
         }
 
-    }
-
-    Process {
-        id: zenithProcess
-
-        command: ["zenith", "--chat", root.currentChat, "-a", "--model", root.currentModel, pendingInput]
-        running: false
-
-        stdout: StdioCollector {
-            onStreamFinished: {
-                if (text.trim() !== "")
-                    appendMessage("AI", text.trim().slice(5));
-
-            }
-        }
-
+        target: Zenith
     }
 
 }

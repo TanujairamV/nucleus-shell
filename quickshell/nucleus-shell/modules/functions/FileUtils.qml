@@ -11,7 +11,6 @@ Singleton {
 
         const original = className;
         const normalized = className.toLowerCase();
-
         // 1. Exact icon name
         if (Quickshell.iconPath(original, true).length > 0)
             return original;
@@ -37,7 +36,8 @@ Singleton {
         let s = str;
         if (typeof s !== "string")
             s = str.toString();
-         // Convert to string if it's an url or whatever
+
+        // Convert to string if it's an url or whatever
         return s.startsWith("file://") ? s.slice(7) : s;
     }
 
@@ -55,24 +55,52 @@ Singleton {
         return ["mp4", "mkv", "webm", "mov", "avi", "m4v"].includes(ext);
     }
 
-    function removeFile(filePath) {
-        if (!filePath || filePath === "")
-            return;
-            console.log("Invalid file path")
-        fileUtilsCmd.command = ["rm", "-f", filePath];
-        fileUtilsCmd.running = true;
+    function createFile(filePath, callback) {
+        if (!filePath)
+            return ;
+
+        let p = Qt.createQmlObject('import QtQuick; import Quickshell.Io; Process {}', root);
+        p.command = ["touch", filePath];
+        p.onExited.connect(function() {
+            console.debug("Created file:", filePath, "exit code:", p.exitCode);
+            p.destroy();
+            if (callback)
+                callback(true);
+
+        });
+        p.running = true;
     }
 
-    function renameFile(oldPath, newPath) {
-        if (!oldPath || !newPath || oldPath === "" || newPath === "")
-            return;
-            console.log("Invalid/Same Names")
-        fileUtilsCmd.command = ["mv", oldPath, newPath];
-        fileUtilsCmd.running = true;
+    function removeFile(filePath, callback) {
+        if (!filePath)
+            return ;
+
+        let p = Qt.createQmlObject('import QtQuick; import Quickshell.Io; Process {}', root);
+        p.command = ["rm", "-f", filePath];
+        p.onExited.connect(function() {
+            console.debug("Removed file:", filePath, "exit code:", p.exitCode);
+            p.destroy();
+            if (callback)
+                callback(true);
+
+        });
+        p.running = true;
     }
 
-    Process {
-        id: fileUtilsCmd
+    function renameFile(oldPath, newPath, callback) {
+        if (!oldPath || !newPath || oldPath === newPath)
+            return ;
+
+        let p = Qt.createQmlObject('import QtQuick; import Quickshell.Io; Process {}', root);
+        p.command = ["mv", oldPath, newPath];
+        p.onExited.connect(function() {
+            console.debug("Renamed file:", oldPath, "→", newPath, "exit code:", p.exitCode);
+            p.destroy();
+            if (callback)
+                callback(true);
+
+        });
+        p.running = true;
     }
 
 }

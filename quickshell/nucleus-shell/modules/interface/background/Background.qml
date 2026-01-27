@@ -18,15 +18,9 @@ Scope {
             id: backgroundContainer
 
             required property var modelData
-            property string selectedWallpaper: ""
-            property string currentSource: Config.runtime.appearance.background.path // Current Wallpaper
-            property string nextSource: "" // Wallpaper to be set
 
-            function applyWallpaper() {
-                if (!selectedWallpaper || selectedWallpaper === currentSource)
-                    return ;
-
-                nextSource = selectedWallpaper;
+            function applyWallpaper(wallpaper) {
+                Config.updateKey("appearance.background.path", wallpaper)
             }
 
             color: (currentImage.status === Image.Error) ? Appearance.colors.colLayer2 : "transparent" // To prevent showing nothing.
@@ -52,12 +46,13 @@ Scope {
                     onStreamFinished: {
                         const out = text.trim();
                         if (out !== "null" && out.length > 0) {
-                            selectedWallpaper = out;
-                            applyWallpaper();
+                            applyWallpaper(out);
                         }
                         // Only run regenColors if auto-generated colors are enabled
-                         Quickshell.execDetached(["qs", "-c", "nucleus-shell", "ipc", "call", "global", "regenColors"]);
                         Quickshell.execDetached(["qs", "-c", "nucleus-shell", "ipc", "call", "clock", "changePosition"]);
+                        Quickshell.execDetached([
+                            "qs", "-c", "nucleus-shell", "ipc", "call", "global", "regenColors"
+                        ]);
                     }
                 }
 
@@ -71,58 +66,10 @@ Scope {
 
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
-                    source: currentSource
+                    source: Config.runtime.appearance.background.path
                     opacity: 1
                 }
 
-                Image {
-                    // Fade animation
-
-                    id: nextImage
-
-                    anchors.fill: parent
-                    fillMode: Image.PreserveAspectCrop
-                    source: nextSource
-                    opacity: 0
-                    onStatusChanged: {
-                        if (status === Image.Ready && nextSource !== "")
-                            fadeAnim.start();
-
-                    }
-                }
-
-                // goofy-ahh animation
-                ParallelAnimation {
-                    id: fadeAnim
-
-                    onFinished: {
-                        // When finished change source
-                        currentSource = nextSource;
-                        nextSource = "";
-                        currentImage.opacity = 1;
-                        nextImage.opacity = 0;
-                        Config.updateKey("appearance.background.path", currentSource);
-                    }
-
-                    // Fade Out
-                    NumberAnimation {
-                        target: currentImage
-                        property: "opacity"
-                        to: 0
-                        duration: 600
-                        easing.type: Easing.InOutCubic
-                    }
-
-                    // Fade In
-                    NumberAnimation {
-                        target: nextImage
-                        property: "opacity"
-                        to: 1
-                        duration: 600
-                        easing.type: Easing.InOutCubic
-                    }
-
-                }
 
                 Item {
                     anchors.centerIn: parent

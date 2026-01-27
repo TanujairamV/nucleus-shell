@@ -35,8 +35,9 @@ PanelWindow {
 
     anchors {
         top: true
-        left: true
+        left: (Config.runtime.bar.position === "left" || Config.runtime.bar.position === "bottom" || Config.runtime.bar.position === "top")
         bottom: true
+        right: (Config.runtime.bar.position === "right")
     }
 
     margins {
