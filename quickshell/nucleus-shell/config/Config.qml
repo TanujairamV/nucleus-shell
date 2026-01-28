@@ -174,6 +174,12 @@ Singleton {
                 property JsonObject background: JsonObject {
                     property bool enabled: true 
                     property url path: Directories.defaultsPath + "/default.jpg"
+                    property JsonObject parallax: JsonObject {
+                        property bool enabled: true 
+                        property bool enableSidebarLeft: true
+                        property bool enableSidebarRight: true
+                        property real zoom: 1.10
+                    }
                     property JsonObject clock: JsonObject {
                         property bool enabled: true 
                         property bool isAnalog: true
@@ -181,6 +187,7 @@ Singleton {
                         property int shape: 1
                         property int xPos: 0
                         property int yPos: 0
+                        property bool animateHands: false
                     }
                     property JsonObject slideshow: JsonObject {
                         property bool enabled: false
