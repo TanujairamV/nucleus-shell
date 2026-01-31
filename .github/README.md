@@ -181,7 +181,7 @@ Contributions are welcome. When contributing:
 * [end-4/dots-hyprland](https://github.com/end-4/dots-hyprland) (Copied some services, took some design inspirations)
 * [etherealboi/twinshell](https://github.com/etherealboi/twinshell) (Some widgets)
 * [bgibson72/yahr-quickshell](https://github.com/bgibson72/yahr-quickshell) (A script that lists installed apps)
-* [caelestia-dots/shell](https://github.com/caelestia-dots/shell) (No code but almost copied the vertical bar design)
+* [caelestia-dots/shell](https://github.com/caelestia-dots/shell) (Didn't copy any code, but yoinked a lot of design from caelestia's vertical bar design)
 * [corecathx/whisker](https://github.com/corecathx/whisker) (Took lots of inspiration and code)
 
 ---
