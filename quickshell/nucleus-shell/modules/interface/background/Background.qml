@@ -72,9 +72,13 @@ Scope {
 
             property real sidebarOffset: {
                 if (sidebarLeftOpen && !sidebarRightOpen)
-                    return -0.15
+                    if (Config.runtime.bar.position === "right")
+                        return 0.15
+                    else return -0.15
                 if (sidebarRightOpen && !sidebarLeftOpen)
-                    return 0.15
+                    if (Config.runtime.bar.position === "left")
+                        return -0.15
+                    else return 0.15
                 return 0
             }
 

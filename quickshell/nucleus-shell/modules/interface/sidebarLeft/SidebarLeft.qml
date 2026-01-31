@@ -45,6 +45,7 @@ PanelWindow {
     margins {
         top: 10
         bottom: 10
+        right: Appearance.margin.small
         left: Appearance.margin.small
     }
 
