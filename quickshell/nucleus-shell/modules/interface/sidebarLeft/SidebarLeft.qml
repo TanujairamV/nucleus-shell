@@ -7,16 +7,15 @@ import Quickshell.Hyprland
 import Quickshell.Io
 import Quickshell.Wayland
 import qs.config
+import qs.services
 import qs.modules.functions
 import qs.modules.widgets
 
 PanelWindow {
     id: sidebarLeft
 
-    // --- Directly use Hyprland's focused monitor ---
     property real sidebarLeftWidth: 500
 
-    // --- Toggle logic ---
     function togglesidebarLeft() {
         Globals.visiblility.sidebarLeft = !Globals.visiblility.sidebarLeft;
     }
@@ -27,8 +26,7 @@ PanelWindow {
     color: "transparent"
     exclusiveZone: 0
     implicitWidth: sidebarLeftWidth
-    focus: Compositor.require("niri")
-    WlrLayershell.keyboardFocus: Compositor.require("niri") && Globals.visiblility.sidebarRight
+    WlrLayershell.keyboardFocus: Compositor.require("niri") && Globals.visiblility.sidebarLeft
 
     HyprlandFocusGrab {
         id: grab

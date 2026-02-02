@@ -16,14 +16,7 @@ import qs.modules.widgets
 PanelWindow {
     id: powermenu
 
-    property var monitor: Hyprland.focusedMonitor
-    property real screenW: monitor ? monitor.width : 0
-    property real screenH: monitor ? monitor.height : 0
-    property real scale: monitor ? monitor.scale : 1
-    property real powermenuWidth: screenW * 0.25 / scale
-    property real powermenuHeight: screenH * 0.3 / scale
-    focus: Compositor.require("niri")
-    WlrLayershell.keyboardFocus: Compositor.require("niri") && Globals.visiblility.sidebarRight
+    WlrLayershell.keyboardFocus: Compositor.require("niri") && Globals.visiblility.powermenu
 
     function togglepowermenu() {
         Globals.visiblility.powermenu = !Globals.visiblility.powermenu; // Simple toggle logic kept in a function as it might have more things to it later on.
@@ -34,8 +27,8 @@ PanelWindow {
     visible: Config.initialized && Globals.visiblility.powermenu
     color: "transparent"
     exclusiveZone: 0
-    implicitWidth: powermenuWidth
-    implicitHeight: powermenuHeight
+    implicitWidth: DisplayMetrics.scaledWidth(0.25)
+    implicitHeight: DisplayMetrics.scaledWidth(0.168)
 
     HyprlandFocusGrab {
         id: grab
@@ -49,7 +42,7 @@ PanelWindow {
 
         color: Appearance.m3colors.m3background
         radius: Appearance.rounding.verylarge
-        implicitWidth: powermenu.powermenuWidth
+        implicitWidth: powermenu.implicitWidth
         anchors.fill: parent
 
         FocusScope {

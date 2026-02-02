@@ -209,6 +209,7 @@ Item {
                         anchors.centerIn: parent
                         visible: Config.runtime.bar.modules.workspaces.showJapaneseNumbers
                         text: japaneseNumber(index + 1)
+                        rotation: Config.runtime.bar.position === "left" ||  Config.runtime.bar.position === "right" ? 270 : 0 
                     }
 
                     // Numbers mode: show numbers everywhere
@@ -216,6 +217,7 @@ Item {
                         anchors.centerIn: parent
                         visible: !Config.runtime.bar.modules.workspaces.showAppIcons && !Config.runtime.bar.modules.workspaces.showJapaneseNumbers
                         text: index + 1
+                        rotation: Config.runtime.bar.position === "left" ||  Config.runtime.bar.position === "right" ? 270 : 0 
                     }
 
                     // Note that if both kanji and icons are enabled both will be visible, in the settings app there is a enabled value so only one of them can be toggled

@@ -1,6 +1,7 @@
 import qs.config
 import qs.modules.widgets
 import qs.modules.functions
+import qs.services
 import QtQuick
 import Quickshell
 import QtQuick.Layouts
@@ -18,7 +19,6 @@ PanelWindow {
     visible: Config.initialized && Globals.visiblility.sidebarRight && !Globals.visiblility.sidebarLeft
     color: "transparent"
     exclusiveZone: 0
-    focus: Compositor.require("niri")
     WlrLayershell.keyboardFocus: Compositor.require("niri") && Globals.visiblility.sidebarRight
     
     property var monitor: Hyprland.focusedMonitor

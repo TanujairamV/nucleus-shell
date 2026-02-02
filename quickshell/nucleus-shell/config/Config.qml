@@ -134,13 +134,14 @@ Singleton {
     Timer { id: fileReloadTimer; interval: root.readWriteDelay; repeat: false; onTriggered: configFileView.reload() }
     Timer { id: fileWriteTimer; interval: root.readWriteDelay; repeat: false; onTriggered: configFileView.writeAdapter() }
 
-    Timer {
+    Timer { // Used to output all log/debug to the terminal
         interval: 1200
         running: true
         repeat: false
         onTriggered: {
             console.log("Injecting plugin configs")
             root.loadPluginConfigs(PluginLoader.plugins)
+            console.log("Detected Compositor:", Compositor.detectedCompositor)
         }
     }
 
@@ -213,7 +214,7 @@ Singleton {
                 property string position: "center"
             }
             property JsonObject shell: JsonObject {
-                property string version: "0.6.0"
+                property string version: "0.5.3"
                 property string releaseChannel: "stable"
                 property string qsVersion: "0.0.0"
             }

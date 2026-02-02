@@ -15,6 +15,9 @@ Singleton {
     property var workspaceCache: ({
     })
     property bool initialized: false
+    property int screenW: 0
+    property int screenH: 0
+    property real screenScale: 1
 
     function changeWorkspace(id) {
         sendSocketCommand(niriCommandSocket, {
@@ -123,6 +126,34 @@ Singleton {
             niriCommandSocket.connected = true;
             niriEventStream.connected = true;
             initialized = true;
+        }
+    }
+
+    Process {
+        id: niriOutputsProc
+        command: ["niri", "msg", "outputs"]
+        running: true
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const lines = this.text.split("\n");
+
+                let logicalSizeRe = /Logical size:\s*(\d+)x(\d+)/;
+                let scaleRe = /Scale:\s*([\d.]+)/;
+
+                for (const line of lines) {
+                    let m;
+
+                    if ((m = logicalSizeRe.exec(line))) {
+                        niriItem.screenW = parseInt(m[1], 10);
+                        niriItem.screenH = parseInt(m[2], 10);
+                    } else if ((m = scaleRe.exec(line))) {
+                        niriItem.screenScale = parseFloat(m[1]);
+                    }
+                }
+
+                niriItem.stateChanged();
+            }
         }
     }
 

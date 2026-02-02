@@ -18,7 +18,7 @@ Singleton {
         return null
     }
 
-    function require(compositor) { // This function can be effectively used to detect check requirements for a feature
+    function require(compositors) { // This function can be effectively used to detect check requirements for a feature (also supports multiple compositors)
         if (Array.isArray(compositors)) {
             return compositors.includes(detectedCompositor);
         }
@@ -34,6 +34,9 @@ Singleton {
     property var windowList: backend?.windowList ?? []
     property bool initialized: backend?.initialized ?? true
     property int workspaceCount: backend?.workspaceCount ?? 0
+    property real screenW: backend?.screenW ?? 0
+    property real screenH: backend?.screenH ?? 0
+    property real screenScale: backend?.screenScale ?? 1
 
     function changeWorkspace(id) {
         backend?.changeWorkspace?.(id)
