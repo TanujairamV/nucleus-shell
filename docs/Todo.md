@@ -6,7 +6,7 @@
 - [x] Add inbuilt-ai
 - [ ] Add support for customizable bar per monitor
 - [x] Improve performance
-- [ ] Add screenshot and screenrecording inbuilt.
+- [x] Add a screenshot utility to the shell.
 - [ ] Improve Intelligence chat interface.
 - [ ] Add greetd.
 - [ ] Add polkit agents.

@@ -65,23 +65,24 @@ Item {
                 Layout.alignment: Qt.AlignVCenter
 
                 StyledRect {
-                    id: editbtncontainer
+                    id: screenshotbtncontainer
                     color: "transparent"
                     radius: Appearance.rounding.large
-                    implicitHeight: editButton.height + Appearance.margin.tiny
-                    implicitWidth: editButton.width + Appearance.margin.small
+                    implicitHeight: screenshotButton.height + Appearance.margin.tiny
+                    implicitWidth: screenshotButton.width + Appearance.margin.small
                     Layout.alignment: Qt.AlignRight | Qt.AlignTop
                     Layout.topMargin: 10
                     Layout.leftMargin: 15
 
                     MaterialSymbolButton {
-                        id: editButton
+                        id: screenshotButton
                         icon: "edit"
                         anchors.centerIn: parent
                         iconSize: Appearance.font.size.hugeass + 2
+                        tooltipText: "Take a screenshot"
 
                         onButtonClicked: {
-                            Quickshell.execDetached(["wl-color-picker"])
+                            Quickshell.execDetached(["nucleus", "ipc", "screen", "capture"])
                             Globals.visiblility.sidebarRight = false;
                         }
                     }
@@ -102,9 +103,10 @@ Item {
                         icon: "refresh"
                         anchors.centerIn: parent
                         iconSize: Appearance.font.size.hugeass + 4
+                        tooltipText: "Reload Nucleus Shell"
 
                         onButtonClicked: {
-                            Quickshell.execDetached(["bash", "-c", Directories.scriptsPath + "/system/reload.sh"])
+                            Quickshell.execDetached(["nucleus", "run", "--reload"])
                         }
                     }
                 }
@@ -124,7 +126,7 @@ Item {
                         icon: "settings"
                         anchors.centerIn: parent
                         iconSize: Appearance.font.size.hugeass + 2
-
+                        tooltipText: "Open Settings"
                         onButtonClicked: {
                             Globals.visiblility.sidebarRight = false
                             Globals.states.settingsOpen = true
@@ -147,6 +149,7 @@ Item {
                         icon: "power_settings_new"
                         anchors.centerIn: parent
                         iconSize: Appearance.font.size.hugeass + 2
+                        tooltipText: "Open PowerMenu"
 
                         onButtonClicked: {
                             Globals.visiblility.sidebarRight = false

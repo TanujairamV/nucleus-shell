@@ -15,6 +15,7 @@ import qs.modules.interface.sidebarRight
 import qs.modules.interface.settings
 import qs.modules.interface.sidebarLeft
 import qs.modules.interface.lockscreen
+import qs.modules.interface.screencapture
 
 ShellRoot {
     id: shellroot 
@@ -80,4 +81,5 @@ ShellRoot {
     Intelligence { }
     UpdateNotifier { }
     PluginHost { }
+    ScreenCapture{ }
 }
