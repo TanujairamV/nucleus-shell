@@ -13,3 +13,5 @@
 - [ ] Improve/Redesign bar.
 - [ ] Improve support for multiple displays... (There is decent support for that but needs optimization)
 - [ ] Implement material ui.
+- [ ] Add `First Time` setup
+
