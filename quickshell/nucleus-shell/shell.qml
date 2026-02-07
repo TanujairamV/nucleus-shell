@@ -16,6 +16,7 @@ import qs.modules.interface.settings
 import qs.modules.interface.sidebarLeft
 import qs.modules.interface.lockscreen
 import qs.modules.interface.screencapture
+import qs.modules.interface.polkit
 
 ShellRoot {
     id: shellroot 
@@ -82,4 +83,5 @@ ShellRoot {
     UpdateNotifier { }
     PluginHost { }
     ScreenCapture{ }
+    Polkit { }
 }

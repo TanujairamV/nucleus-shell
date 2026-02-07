@@ -80,7 +80,7 @@ packages=(
     ttf-fira-code ttf-firacode-nerd
     ttf-material-symbols-variable-git
     ttf-font-awesome ttf-fira-sans
-    quickshell matugen-bin
+    quickshell-git matugen-bin
     qt5-wayland qt6-wayland qt5-graphicaleffects qt6-5compat
     xdg-desktop-portal-hyprland
     zenity jq ddcutil flatpak

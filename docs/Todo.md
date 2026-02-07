@@ -9,7 +9,7 @@
 - [x] Add a screenshot utility to the shell.
 - [ ] Improve Intelligence chat interface.
 - [ ] Add greetd.
-- [ ] Add polkit agents.
+- [x] Add polkit agent.
 - [ ] Improve/Redesign bar.
 - [ ] Improve support for multiple displays... (There is decent support for that but needs optimization)
 - [ ] Implement material ui.
