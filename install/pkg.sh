@@ -20,10 +20,11 @@ installed() {
 }
 
 run() {
-    info "$1"
+    local desc="$1"
     shift
-    "$@" &>/dev/null || fail "$1 failed"
-    ok "$1"
+    info "$desc"
+    "$@" &>/dev/null || fail "$desc failed"
+    ok "$desc"
 }
 
 # Distro check
@@ -70,8 +71,8 @@ packages=(
     hyprland hyprpaper hyprlock hyprpicker
     wf-recorder wl-clipboard grim slurp
     qt6ct qt5ct kvantum kvantum-qt5
-    kitty fish starship
-    firefox nautilus
+    kitty fish starship 
+    firefox nautilus network-manager-applet
     wl-color-picker imagemagick qt6-svg
     networkmanager wireplumber bluez-utils
     fastfetch playerctl brightnessctl
@@ -80,10 +81,10 @@ packages=(
     ttf-fira-code ttf-firacode-nerd
     ttf-material-symbols-variable-git
     ttf-font-awesome ttf-fira-sans
-    quickshell-git matugen-bin
+    quickshell-git matugen-bin ffmpeg
     qt5-wayland qt6-wayland qt5-graphicaleffects qt6-5compat
     xdg-desktop-portal-hyprland
-    zenity jq ddcutil flatpak
+    zenity jq ddcutil flatpak 
 )
 
 # Install loop
