@@ -126,7 +126,7 @@ Item {
                 // Hyprland starts at 2 internally
                 return Compositor.focusedWorkspaceId - 2; // Niri or default
             }
-            property real targetX: Math.min(highlightIndex, 4 - 1) * (itemWidth + spacing) + 7.3
+            property real targetX: Math.min(highlightIndex, numWorkspaces - 1) * (itemWidth + spacing) + 7.3
             property real animatedX1: targetX
             property real animatedX2: targetX
 
@@ -222,7 +222,7 @@ Item {
                     // Numbers mode — only if not Hyprland
                     StyledText {
                         anchors.centerIn: parent
-                        visible: !Config.runtime.bar.modules.workspaces.showJapaneseNumbers && !Config.runtime.bar.modules.workspaces.showAppIcons
+                        visible: !Config.runtime.bar.modules.workspaces.showJapaneseNumbers && !Config.runtime.bar.modules.workspaces.showAppIconse
                         text: index + 1
                         rotation: (Config.runtime.bar.position === "left" || Config.runtime.bar.position === "right") ? 270 : 0
                     }
