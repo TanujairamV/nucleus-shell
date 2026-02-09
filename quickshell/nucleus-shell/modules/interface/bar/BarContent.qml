@@ -96,9 +96,9 @@ Item {
                 icon: "menu"
                 iconSize: 22
                 iconColor: Appearance.m3colors.m3error
-                toggle: Globals.visiblility.powermenu
+                toggle: Globals.visiblility.sidebarLeft
                 rotation: 270
-                onToggled: Globals.visiblility.powermenu = value
+                onToggled: Globals.visiblility.sidebarLeft = value
             }
             
 

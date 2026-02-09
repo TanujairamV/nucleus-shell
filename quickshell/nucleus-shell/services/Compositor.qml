@@ -2,6 +2,7 @@ pragma Singleton
 
 import QtQuick
 import Quickshell
+import Quickshell.Wayland
 import Quickshell.Io
 
 Singleton {
@@ -37,6 +38,7 @@ Singleton {
     property real screenW: backend?.screenW ?? 0
     property real screenH: backend?.screenH ?? 0
     property real screenScale: backend?.screenScale ?? 1
+    readonly property Toplevel activeToplevel: ToplevelManager.activeToplevel
 
     function changeWorkspace(id) {
         backend?.changeWorkspace?.(id)

@@ -149,14 +149,14 @@ ContentMenu {
         StyledSwitchOption {
             title: "Show App Icons"
             description: "Show opened app icons (Hyprland Only)."
-            enabled: !Config.runtime.bar.modules.workspaces.showJapaneseNumbers
-            opacity: !Config.runtime.bar.modules.workspaces.showJapaneseNumbers ? 1 : 0.8
+            enabled: !Config.runtime.bar.modules.workspaces.showJapaneseNumbers && Compositor.require("hyprland")
+            opacity: !Config.runtime.bar.modules.workspaces.showJapaneseNumbers && Compositor.require("hyprland") ? 1 : 0.8
             prefField: "bar.modules.workspaces.showAppIcons"
         }
 
         StyledSwitchOption {
             title: "Show Japanese Numbers"
-            description: "Enable or disable japanese indicators."``
+            description: "Enable or disable japanese indicators."
             enabled: !Config.runtime.bar.modules.workspaces.showAppIcons
             opacity: !Config.runtime.bar.modules.workspaces.showAppIcons ? 1 : 0.8
             prefField: "bar.modules.workspaces.showJapaneseNumbers"
@@ -184,18 +184,6 @@ ContentMenu {
             title: "Show Bluetooth Status"
             description: "Enable or disable bluetooth status."
             prefField: "bar.modules.statusIcons.bluetoothStatusEnabled"
-        }
-
-        StyledSwitchOption {
-            title: "Show Theme Status"
-            description: "Enable or disable theme status."
-            prefField: "bar.modules.statusIcons.themeStatusEnabled"
-        }
-
-        StyledSwitchOption {
-            title: "Show Keyboard layout Status"
-            description: "Enable or disable keyboard status."
-            prefField: "bar.modules.statusIcons.keyboardLayoutStatusEnabled"
         }
 
         StyledText {

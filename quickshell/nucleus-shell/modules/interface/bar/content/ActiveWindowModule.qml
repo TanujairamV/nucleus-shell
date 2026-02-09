@@ -11,8 +11,8 @@ Item {
     id: container
     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
-    property Toplevel activeToplevel: Hyprland.isWorkspaceOccupied(Hyprland.focusedWorkspaceId)
-        ? Hyprland.activeToplevel
+    property Toplevel activeToplevel: Compositor.isWorkspaceOccupied(Compositor.focusedWorkspaceId)
+        ? Compositor.activeToplevel
         : null
 
     implicitWidth: col.implicitWidth
