@@ -72,21 +72,21 @@ Key goals:
 
 Follow these steps to install the collection. The automated setup is conservative and will prompt before making destructive changes.
 
-1. Install The Nucleus Cli:
+### Using the cli:
     ```bash
     yay -S nucleus-cli
-    ```
-
-2. Run the installer:
-    ```bash
     nucleus install
     ```
-    - The installer will guide you through dependency checks and optional modules.
-
-4. Open a fresh shell session or source your shell profile to apply changes.
-
+### Using the install script
+    ```bash
+    git clone https://github.com/xZepyx/nucleus-shell
+    cd nucleus-shell
+    cd install
+    ./unified.sh
+    ```
 Notes:
 - Manual installation (symlinking files yourself) is supported and recommended for cautious users.
+- Install Script is preffered over the cli installation. 
 - Back up your existing dotfiles (e.g. ~/.config/ ~/.bashrc, ~/.zshrc, ~/.profile) before running the bootstrap.
 
 ---
