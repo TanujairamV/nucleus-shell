@@ -73,17 +73,17 @@ Key goals:
 Follow these steps to install the collection. The automated setup is conservative and will prompt before making destructive changes.
 
 ### Using the cli:
-    ```bash
-    yay -S nucleus-cli
-    nucleus install
-    ```
+```bash
+   yay -S nucleus-cli
+   nucleus install
+```
 ### Using the install script
-    ```bash
-    git clone https://github.com/xZepyx/nucleus-shell
-    cd nucleus-shell
-    cd install
-    ./unified.sh
-    ```
+```bash
+   git clone https://github.com/xZepyx/nucleus-shell
+   cd nucleus-shell
+   cd install
+   ./unified.sh
+```
 Notes:
 - Manual installation (symlinking files yourself) is supported and recommended for cautious users.
 - Install Script is preffered over the cli installation. 
