@@ -104,6 +104,8 @@ Item {
 
             SystemUsageModule { }
             MediaPlayerModule { }
+            SystemTray { rotation: 0 }
+
         }
     }
 
@@ -139,6 +141,7 @@ Item {
             anchors.centerIn: parent
             spacing: Metrics.spacing(6)
             rotation: 90
+
 
             ClockModule {
                 rotation: 270

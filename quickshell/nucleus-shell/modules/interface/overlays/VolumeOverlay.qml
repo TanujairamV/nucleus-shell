@@ -89,7 +89,7 @@ Scope {
 						StyledText {
 							animate: false
 							text: Pipewire.defaultAudioSink?.description + " - " + (Pipewire.defaultAudioSink?.audio.muted ? 'Muted' : Math.floor(Pipewire.defaultAudioSink?.audio.volume*100) + '%')
-							font.pixelSize: Metrics.pixelSize(18)
+							font.pixelSize: Metrics.fontSize(18)
 						}
 
 						StyledSlider {

@@ -9,7 +9,7 @@ import QtQuick.Layouts
 Item {
     id: root
     readonly property Repeater items: items
-
+    property bool horizontalMode: (Config.runtime.bar.position === "top" || Config.runtime.bar.position === "bottom")
     clip: true
     implicitWidth: padding.width
     implicitHeight: padding.height
@@ -27,8 +27,8 @@ Item {
     GridLayout {
         id: layout
         anchors.centerIn: parent
-        rows: root.verticalMode ? 1 : 4
-        columns: root.verticalMode ? 1 : 4
+        rows: 1
+        columns: SystemTray.items.length
         rowSpacing: Metrics.spacing(10)
         columnSpacing: Metrics.spacing(10)
 
@@ -47,6 +47,7 @@ Item {
                     source: trayItemRoot.modelData.icon
                     asynchronous: true
                     anchors.fill: parent
+                    rotation: root.horizontalMode ? 0 : 270
                 }
 
                 HoverHandler {
