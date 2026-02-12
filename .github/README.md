@@ -19,9 +19,8 @@
 #### A shell built to get things done.
 
 Key goals:
-- Minimal, script-centric configuration
-- Easy to review and selectively apply
-- Composable modules for prompts, completions, and UI widgets
+- Prefer Usability
+- Composable modules, design and appearance
 
 > [!IMPORTANT]
 > * If you want to access the older releases refer to the [archive branch](https://github.com/xZepyx/nucleus-shell/tree/archive)
@@ -70,10 +69,11 @@ Key goals:
 <h2 align="center">✦ Installation ✦</h2>
 
 
-Follow these steps to install the collection. The automated setup is conservative and will prompt before making destructive changes.
+Follow these steps to install the shell. The automated setup is conservative and will prompt before making destructive changes.
 
 ### Using the cli:
 ```bash
+# This is currently outdated.
 yay -S nucleus-cli
 nucleus install
 ```
@@ -96,7 +96,7 @@ Notes:
 - Primary config: `~/.config/nucleus-shell/config/configuration.json`
 - Modular settings: prompt, completion, and widget modules are separated for easy replacement.
 - To customize:
-  - Edit the primary config or use the provided settings app (if installed).
+  - Edit the primary config or use the provided settings app.
   - Enable/disable modules by editing the module list in the `~/.config/quickshell/nucleus-shell/shell.qml` file.
 
 ---
@@ -193,5 +193,6 @@ Contributions are welcome. When contributing:
 <h2 align="center">✦ License ✦</h2>
 
 © 2025 xZepyx (Aditya Yadav) — Licensed under the MIT License. See `license/` for details.
+I would appreciate if you put a notice that some stuff was taken from this repo if you distribute it.
 
 ---
