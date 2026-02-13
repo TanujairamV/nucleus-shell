@@ -28,7 +28,7 @@ Item {
         id: layout
         anchors.centerIn: parent
         rows: 1
-        columns: SystemTray.items.length
+        columns: items.count
         rowSpacing: Metrics.spacing(10)
         columnSpacing: Metrics.spacing(10)
 
