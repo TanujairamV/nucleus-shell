@@ -71,17 +71,10 @@ Key goals:
 
 Follow these steps to install the shell. The automated setup is conservative and will prompt before making destructive changes.
 
-### Using the cli:
-```bash
-# This is currently outdated.
-yay -S nucleus-cli
-nucleus install
-```
 ### Using the install script
 ```bash
 git clone https://github.com/xZepyx/nucleus-shell
-cd nucleus-shell
-cd install
+cd nucleus-shell/install
 ./unified.sh
 ```
 Notes:
