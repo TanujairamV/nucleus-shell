@@ -83,5 +83,5 @@ ShellRoot {
     UpdateNotifier { }
     PluginHost { }
     ScreenCapture{ }
-    Polkit { }
+    PolkitAgent { }
 }

@@ -96,7 +96,7 @@ PanelWindow {
                     PowerMenuButton {
                         buttonIcon: "lock"
                         onClicked: {
-                            Quickshell.execDetached(["nucleus", "ipc", "lockscreen", "lock"]);
+                            Quickshell.execDetached(["nucleus", "ipc", "call", "lockscreen", "lock"]);
                             Globals.visiblility.powermenu = false;
                         }
                     }

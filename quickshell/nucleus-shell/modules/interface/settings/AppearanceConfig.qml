@@ -59,14 +59,12 @@ ContentMenu {
 
                             Config.updateKey("appearance.theme", "dark")
                             Quickshell.execDetached([
-                                "bash",
-                                Directories.scriptsPath + "/interface/switchTheme.sh",
-                                file
+                                "nucleus", "theme", "switch", file
                             ])
                         } else {
                             Config.updateKey("appearance.theme", "dark")
                             Quickshell.execDetached([
-                                "nucleus", "ipc", "global", "regenColors"
+                                "nucleus", "ipc", "call", "global", "regenColors"
                             ])
                         }
                     }
@@ -93,14 +91,12 @@ ContentMenu {
 
                             Config.updateKey("appearance.theme", "light")
                             Quickshell.execDetached([
-                                "bash",
-                                Directories.scriptsPath + "/interface/switchTheme.sh",
-                                file
+                                "nucleus", "theme", "switch", file
                             ])
                         } else {
                             Config.updateKey("appearance.theme", "light")
                             Quickshell.execDetached([
-                                "nucleus", "ipc", "global", "regenColors"
+                                "nucleus", "ipc", "call", "global", "regenColors"
                             ])
                         }
                     }
@@ -153,7 +149,7 @@ ContentMenu {
                     const selectedScheme = model[index]
                     Config.updateKey("appearance.colors.matugenScheme", selectedScheme)
                     Quickshell.execDetached([
-                        "nucleus", "ipc", "global", "regenColors"
+                        "nucleus", "ipc", "call", "global", "regenColors"
                     ])
                 }
 
@@ -194,9 +190,7 @@ ContentMenu {
 
                     Config.updateKey("appearance.colors.scheme", selectedTheme)
                     Quickshell.execDetached([
-                        "bash",
-                        Directories.scriptsPath + "/interface/switchTheme.sh",
-                        file
+                        "nucleus", "theme", "switch", file
                     ])
                 }
 

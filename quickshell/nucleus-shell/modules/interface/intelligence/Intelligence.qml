@@ -251,7 +251,7 @@ FloatingWindow {
                     icon: "close_fullscreen"
                     Layout.preferredWidth: 40
                     onClicked: {
-                        Quickshell.execDetached(["nucleus", "ipc", "intelligence", "closeWindow"]);
+                        Quickshell.execDetached(["nucleus", "ipc", "call", "intelligence", "closeWindow"]);
                         Globals.visiblility.sidebarLeft = false;
                     }
                 }

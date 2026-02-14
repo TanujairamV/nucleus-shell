@@ -96,7 +96,7 @@ ContentMenu {
             text: "Change Wallpaper"
             Layout.fillWidth: true
             onClicked: {
-                Quickshell.execDetached(["nucleus", "ipc",  "background", "change"]);
+                Quickshell.execDetached(["nucleus", "ipc", "call", "background", "change"]);
             }
         }
 
@@ -221,7 +221,7 @@ ContentMenu {
                 text: "Skip Next"
                 enabled: WallpaperSlideshow.wallpapers.length > 0
                 onClicked: {
-                    Quickshell.execDetached(["nucleus", "ipc", "background", "next"]);
+                    Quickshell.execDetached(["nucleus", "ipc", "call", "background", "next"]);
                 }
             }
         }

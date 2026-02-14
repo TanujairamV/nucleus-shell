@@ -229,7 +229,7 @@ Item {
                     icon: "fullscreen"
                     Layout.preferredWidth: 40
                     onClicked: {
-                        Quickshell.execDetached(["nucleus", "ipc", "intelligence", "openWindow"]);
+                        Quickshell.execDetached(["nucleus", "ipc", "call", "intelligence", "openWindow"]);
                         Globals.visiblility.sidebarLeft = false;
                     }
                 }

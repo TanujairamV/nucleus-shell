@@ -119,10 +119,10 @@ Scope {
                         }
 
                         Quickshell.execDetached([
-                            "nucleus", "ipc", "clock", "changePosition"
+                            "nucleus", "ipc", "call", "clock", "changePosition"
                         ])
                         Quickshell.execDetached([
-                            "nucleus", "ipc", "global", "regenColors"
+                            "nucleus", "ipc", "call", "global", "regenColors"
                         ])
                     }
                 }

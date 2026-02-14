@@ -81,7 +81,7 @@ Item {
                         tooltipText: "Take a screenshot"
 
                         onButtonClicked: {
-                            Quickshell.execDetached(["nucleus", "ipc", "screen", "capture"])
+                            Quickshell.execDetached(["nucleus", "ipc", "call", "screen", "capture"])
                             Globals.visiblility.sidebarRight = false;
                         }
                     }
@@ -200,7 +200,7 @@ Item {
             Layout.preferredWidth: parent.width
 
             RowLayout {
-                Network {
+                NetworkToggle {
                     Layout.fillWidth: true
                     Layout.preferredHeight: 80
                 }
@@ -211,7 +211,7 @@ Item {
             }
 
             RowLayout {
-                Bluetooth {
+                BluetoothToggle {
                     Layout.preferredWidth: 220
                     Layout.preferredHeight: 80
                 }
