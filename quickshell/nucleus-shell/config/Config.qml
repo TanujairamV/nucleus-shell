@@ -168,7 +168,18 @@ Singleton {
                 property JsonObject animations: JsonObject { property bool enabled: true; property double durationScale: 1 }
                 property JsonObject transparency: JsonObject { property bool enabled: false; property double alpha: 0.2 }
                 property JsonObject rounding: JsonObject { property double factor: 1 }
-                property JsonObject font: JsonObject { property double scale: 1 }
+                property JsonObject font: JsonObject { 
+                    property double scale: 1 
+                    property JsonObject families: JsonObject {
+                        property string main: "JetBrains Mono"
+                        property string title: "Gabarito"
+                        property string materialIcons: "Material Symbols Rounded"
+                        property string nerdIcons: "JetBrains Mono NF"
+                        property string monospace: "JetBrains Mono NF"
+                        property string reading: "Readex Pro"
+                        property string expressive: "Space Grotesk"
+                    }
+                }
                 property JsonObject colors: JsonObject {
                     property string scheme: "catppuccin-lavender"
                     property string matugenScheme: "scheme-neutral"

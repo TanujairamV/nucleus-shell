@@ -223,13 +223,13 @@ Singleton {
 
     font: QtObject {
         property QtObject family: QtObject {
-            property string main: "JetBrains Mono"
-            property string title: "Gabarito"
-            property string materialIcons: "Material Symbols Rounded"
-            property string nerdIcons: "JetBrains Mono NF"
-            property string monospace: "JetBrains Mono NF"
-            property string reading: "Readex Pro"
-            property string expressive: "Space Grotesk"
+            property string main: Config.runtime.appearance.font.families.main
+            property string title: Config.runtime.appearance.font.families.title
+            property string materialIcons: Config.runtime.appearance.font.families.materialIcons
+            property string nerdIcons: Config.runtime.appearance.font.families.nerdFonts
+            property string monospace: Config.runtime.appearance.font.families.monospace
+            property string reading: Config.runtime.appearance.font.families.reading
+            property string expressive: Config.runtime.appearance.font.families.expressive
         }
         property QtObject size: QtObject {
             property int smallest: 10
