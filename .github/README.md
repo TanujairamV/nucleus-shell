@@ -175,9 +175,8 @@ Contributions are welcome. When contributing:
 
 <h2 align="center">✦ Thank You ✦</h2>
 
-* [@xr3tc](https://github.com/unf6): For helping me out on cli and lot of other web and stuff (and being a great friend)
-* [@end4](https://github.com/end-4): For his great projects. (I yoinked a lot of stuff)
 * [@ivan](https://github.com/SavingFrame): Thanks bro for being our first "actual" contributor.
+* [@end4](https://github.com/end4): For his great projects
 * [@soramanew](https://github.com/soramanew): We haven't talked but I was greatly inspired by his project **caelestia-shell**
 * [@Axenide](https://github.com/axenide): I also haven't talked to him but his project **Ax-Shell** led me into hyprland shells for the first time.
 
