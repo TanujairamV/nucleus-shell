@@ -24,7 +24,7 @@ Key goals:
 
 > [!IMPORTANT]
 > * If you want to access the older releases refer to the [archive branch](https://github.com/xZepyx/nucleus-shell/tree/archive)
-> * You can also join the [discord server](https://discord.gg/SvQMhuMXXa) for help.
+> * You can also join the [discord server](https://discord.gg/FcvT2VabEM) for help.
 > * **Before reporting an issue:**
   If you encounter a problem in the current release, please first test against the latest source code by cloning the repository (`git clone ...`). This ensures you are not reporting an issue that has already been fixed.
   Only open an issue if the problem is still reproducible on the latest source.
