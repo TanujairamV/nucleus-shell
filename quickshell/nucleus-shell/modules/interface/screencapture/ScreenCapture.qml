@@ -544,7 +544,7 @@ Scope {
                     anchors.bottomMargin: Metrics.margin(30)
                     width: row.width + 20
                     height: row.height + 20
-		            visible: false
+		            visible: true
 
                     Rectangle {
                         anchors.fill: parent
