@@ -38,9 +38,9 @@ Key goals:
 
 | Built with love                                  | Forests                                            |
 |--------------------------------------------------|----------------------------------------------------|
-| ![](/previews/1.png)                             | ![](/previews/4.png)                               |
+| ![](/previews/Love.png)                          | ![](/previews/Forests.png)                         |
 | **Amazing Passion**                              | **Metallic**                                       |
-| ![](/previews/2.png)                             | ![](/previews/4.png)                               |
+| ![](/previews/Passion.png)                       | ![](/previews/Metallic.png)                        |
 
 </div>
 
