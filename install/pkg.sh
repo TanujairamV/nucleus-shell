@@ -84,7 +84,7 @@ packages=(
     quickshell-git matugen-bin ffmpeg
     qt5-wayland qt6-wayland qt5-graphicaleffects qt6-5compat
     xdg-desktop-portal-hyprland
-    zenity jq ddcutil flatpak 
+    zenity jq ddcutil flatpak nucleus-shell
 )
 
 # Install loop
