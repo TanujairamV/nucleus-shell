@@ -74,6 +74,12 @@ Key goals:
 
 Follow these steps to install the shell. The automated setup is conservative and will prompt before making destructive changes.
 
+### Using the cli
+```
+yay -S nucleus-shell
+nucleus install
+```
+
 ### Using the install script
 ```bash
 git clone https://github.com/xZepyx/nucleus-shell
