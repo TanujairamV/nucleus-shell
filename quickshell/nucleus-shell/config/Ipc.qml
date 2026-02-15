@@ -66,18 +66,32 @@ Scope {
         }
     }
 
-    // Process to generate colors
-    Process {
-        id: genThemeColors
-
-        command: [
+    property var genColorsCmd: Config.runtime.appearance.colors.runMatugenUserWide
+        ? [
+            "bash",
+            Directories.scriptsPath + "/interface/gencolors.sh",
+            "--user-wide",
+            Config.runtime.appearance.background.path,
+            Config.runtime.appearance.colors.matugenScheme,
+            Config.runtime.appearance.theme,
+            Quickshell.shellPath("extras/matugen/config.toml")
+        ]
+        : [
             "bash",
             Directories.scriptsPath + "/interface/gencolors.sh",
             Config.runtime.appearance.background.path,
             Config.runtime.appearance.colors.matugenScheme,
             Config.runtime.appearance.theme,
             Quickshell.shellPath("extras/matugen/config.toml")
-        ]
+        ];
+
+
+
+    // Process to generate colors
+    Process {
+        id: genThemeColors
+
+        command: genColorsCmd
     }
 
 }
