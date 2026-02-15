@@ -36,11 +36,11 @@ Key goals:
 
 <div align="center">
 
-| Top Bar                                         | Bottom Bar                                           |
+| Built with love                                  | Forests                                            |
 |--------------------------------------------------|----------------------------------------------------|
-| ![TopBar](/previews/3.png)                       | ![BottomBar](/previews/2.png)                        |
-| **Left Bar**                                         | **Right Bar**                                           |
-| ![LeftBar](/previews/1.png)                       | ![RightBar](/previews/4.png)                        |
+| ![](/previews/1.png)                             | ![](/previews/4.png)                               |
+| **Amazing Passion**                              | **Metallic**                                       |
+| ![](/previews/2.png)                             | ![](/previews/4.png)                               |
 
 </div>
 
