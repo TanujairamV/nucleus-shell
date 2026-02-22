@@ -1,104 +1,77 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
+import Quickshell.Io
+import Quickshell.Widgets
 import qs.config
-import qs.plugins
 import qs.modules.components
-import qs.modules.functions
+import qs.plugins
 
-Item { // I didn't want the flicable implicitHeight headache
-    id: pluginsPage
-    Layout.fillWidth: true
-    Layout.fillHeight: true
-    opacity: visible ? 1 : 0
-    scale: visible ? 1 : 0.95
+ContentMenu {
+    title: "Store"
+    description: "Manage plugins and other stuff for the shell."
 
-    Behavior on opacity {
-        enabled: Config.runtime.appearance.animations.enabled
-        NumberAnimation {
-            duration: Metrics.duration("normal")
-            easing.type: Appearance.animation.curves.standard[0] // using standard easing
-        }
-    }
-    Behavior on scale {
-        enabled: Config.runtime.appearance.animations.enabled
-        NumberAnimation {
-            duration: Metrics.duration("normal")
-            easing.type: Appearance.animation.curves.standard[0]
-        }
-    }
-    // Outer margins
-    property int sideMargin: Metrics.margin("verylarge") * 8
-    property int topMargin: Metrics.margin("verylarge")
-    property int contentSpacing: Metrics.margin("normal")
+    ContentCard {
+        Layout.fillWidth: true
+        Layout.preferredHeight: implicitHeight
 
-    // Header + description
-    ColumnLayout {
-        id: headerColumn
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.leftMargin: Metrics.margin("verylarge") + Metrics.margin("small")
-        anchors.topMargin: topMargin
-        spacing: Metrics.margin("small")
-
-        StyledText {
-            text: "Plugins"
-            font.pixelSize: Metrics.fontSize("huge")
-            font.bold: true
-            font.family: Metrics.fontFamily("title")
-        }
-
-        StyledText {
-            text: "Modify and Customize Installed Plugins."
-            font.pixelSize: Metrics.fontSize("small")
-        }
-
-    }
-
-    // Scrollable plugin list
-    Flickable {
-        id: pluginFlickable
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: headerColumn.bottom
-        anchors.bottom: parent.bottom
-        anchors.leftMargin: sideMargin
-        anchors.rightMargin: sideMargin
-        anchors.topMargin: contentSpacing
-        clip: true
-
-        contentWidth: width
-
-        ColumnLayout {
-            id: pluginColumn
-            width: parent.width
-            spacing: contentSpacing
-
-            StyledText {
-                text: "Plugins not found!"
-                font.pixelSize: Metrics.fontSize(20)
-                font.bold: true
-                visible: PluginLoader.plugins.length === 0
-                Layout.alignment: Qt.AlignHCenter
-            }
+        GridLayout {
+            id: grid
+            columns: 1
+            Layout.fillWidth: true
+            columnSpacing: Metrics.spacing(16)
+            rowSpacing: Metrics.spacing(16)
 
             Repeater {
-                model: PluginLoader.plugins
+                model: PluginParser.model
 
-                delegate: ContentCard {
+                delegate: StyledRect {
                     Layout.fillWidth: true
+                    Layout.preferredHeight: 90
+                    radius: Metrics.radius("small")
+                    color: Appearance.m3colors.m3surfaceContainer
 
-                    Loader {
-                        Layout.fillWidth: true
-                        asynchronous: true
-                        source: Qt.resolvedUrl(
-                            Directories.shellConfig + "/plugins/" + modelData + "/Settings.qml"
-                        )
+                    Item {
+                        anchors.fill: parent
+                        anchors.margins: Metrics.margin("normal")
+
+                        RowLayout {
+                            anchors.fill: parent
+                            spacing: Metrics.spacing(12)
+
+                            Column {
+                                Layout.fillWidth: true
+                                spacing: Metrics.spacing(2)
+
+                                StyledText {
+                                    font.pixelSize: Metrics.fontSize("large")
+                                    text: name
+                                }
+
+                                StyledText {
+                                    font.pixelSize: Metrics.fontSize("small")
+                                    text: author
+                                    color: Appearance.colors.colSubtext
+                                }
+
+                                StyledText {
+                                    font.pixelSize: Metrics.fontSize("normal")
+                                    text: description
+                                    color: Appearance.colors.colSubtext
+                                }
+                            }
+
+                            StyledButton {
+                                text: installed ? "Remove" : "Install"
+                                Layout.preferredWidth: 140
+                                onClicked: installed
+                                    ? PluginParser.uninstall(id)
+                                    : PluginParser.install(id)
+                            }
+                        }
                     }
                 }
             }
         }
-
-        // Update contentHeight dynamically
-        contentHeight: pluginColumn.implicitHeight
     }
 }
