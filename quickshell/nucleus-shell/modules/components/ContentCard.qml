@@ -4,8 +4,6 @@ import QtQuick.Layouts
 
 Item {
     id: contentCard
-
-    /* ---- layout-safe implicit sizing ---- */
     implicitWidth: parent ? parent.width : 600
     implicitHeight: contentArea.implicitHeight + verticalPadding
 
