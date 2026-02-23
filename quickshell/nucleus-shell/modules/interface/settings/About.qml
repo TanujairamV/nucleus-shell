@@ -3,18 +3,18 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Widgets
-import qs.modules.components
 import qs.config
+import qs.modules.components
 import qs.services
 
 Item {
     id: root
 
+    property int logoOffset: -30
+
     anchors.fill: parent
     implicitWidth: 640
     implicitHeight: 520
-
-    property int logoOffset: -30
 
     Column {
         anchors.centerIn: parent
@@ -31,6 +31,7 @@ Item {
                 x: root.logoOffset
                 font.pixelSize: Metrics.fontSize(200)
             }
+
         }
 
         StyledText {
@@ -66,7 +67,9 @@ Item {
                 secondary: true
                 onClicked: Qt.openUrlExternally("https://github.com/xZepyx/nucleus-shell/issues")
             }
+
         }
+
     }
 
     StyledText {
@@ -83,39 +86,29 @@ Item {
         width: 52
         height: 52
         radius: Appearance.rounding.small
-
-        color: updateMA.containsMouse
-               ? Qt.lighter(Appearance.m3colors.m3secondaryContainer, 1.1)
-               : Appearance.m3colors.m3secondaryContainer
-
+        color: updateMA.containsMouse ? Qt.lighter(Appearance.m3colors.m3secondaryContainer, 1.1) : Appearance.m3colors.m3secondaryContainer
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: Metrics.margin(24)
 
-        StyledText {
-            text: "↻"
+        MaterialSymbol {
+            text: "update"
             anchors.centerIn: parent
             font.pixelSize: Metrics.fontSize(22)
         }
 
         MouseArea {
             id: updateMA
+
             anchors.fill: parent
             hoverEnabled: true
-
             onClicked: {
-                Globals.states.settingsOpen = false
-
-                Quickshell.execDetached(["notify-send", "Updating Nucleus Shell"])
-
-                Quickshell.execDetached([
-                    "kitty",
-                    "--hold",
-                    "bash",
-                    "-c",
-                    Directories.scriptsPath + "/system/update.sh"
-                ])
+                Globals.states.settingsOpen = false;
+                Quickshell.execDetached(["notify-send", "Updating Nucleus Shell"]);
+                Quickshell.execDetached(["kitty", "--hold", "bash", "-c", Directories.scriptsPath + "/system/update.sh"]);
             }
         }
+
     }
+
 }
