@@ -8,12 +8,13 @@ import qs.modules.components
 import qs.plugins
 
 ContentMenu {
-    title: "Store"
-    description: "Manage plugins and other stuff for the shell."
+    title: "Plugins"
+    description: "Modify and Customize Installed Plugins."
 
     ContentCard {
         Layout.fillWidth: true
         Layout.preferredHeight: implicitHeight
+        color: "transparent"
 
         GridLayout {
             id: grid
