@@ -22,53 +22,26 @@ ContentMenu {
             columnSpacing: Metrics.spacing(16)
             rowSpacing: Metrics.spacing(16)
 
+            StyledText {
+                text: "Plugins not found!"
+                font.pixelSize: Metrics.fontSize(20)
+                font.bold: true
+                visible: PluginLoader.plugins.length === 0
+                Layout.alignment: Qt.AlignHCenter
+            }
+
             Repeater {
-                model: PluginParser.model
+                model: PluginLoader.plugins
 
-                delegate: StyledRect {
+                delegate: ContentCard {
                     Layout.fillWidth: true
-                    Layout.preferredHeight: 90
-                    radius: Metrics.radius("small")
-                    color: Appearance.m3colors.m3surfaceContainer
 
-                    Item {
-                        anchors.fill: parent
-                        anchors.margins: Metrics.margin("normal")
-
-                        RowLayout {
-                            anchors.fill: parent
-                            spacing: Metrics.spacing(12)
-
-                            Column {
-                                Layout.fillWidth: true
-                                spacing: Metrics.spacing(2)
-
-                                StyledText {
-                                    font.pixelSize: Metrics.fontSize("large")
-                                    text: name
-                                }
-
-                                StyledText {
-                                    font.pixelSize: Metrics.fontSize("small")
-                                    text: author
-                                    color: Appearance.colors.colSubtext
-                                }
-
-                                StyledText {
-                                    font.pixelSize: Metrics.fontSize("normal")
-                                    text: description
-                                    color: Appearance.colors.colSubtext
-                                }
-                            }
-
-                            StyledButton {
-                                text: installed ? "Remove" : "Install"
-                                Layout.preferredWidth: 140
-                                onClicked: installed
-                                    ? PluginParser.uninstall(id)
-                                    : PluginParser.install(id)
-                            }
-                        }
+                    Loader {
+                        Layout.fillWidth: true
+                        asynchronous: true
+                        source: Qt.resolvedUrl(
+                            Directories.shellConfig + "/plugins/" + modelData + "/Settings.qml"
+                        )
                     }
                 }
             }
