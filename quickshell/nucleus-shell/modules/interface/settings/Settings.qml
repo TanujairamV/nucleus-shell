@@ -113,6 +113,22 @@ Scope {
                                 height: modelData.header ? (root.sidebarCollapsed ? 0 : 30) : 42
                                 visible: !modelData.header || !root.sidebarCollapsed
 
+                                // header
+                                Item {
+                                    width: parent.width
+                                    height: parent.height
+
+                                    StyledText {
+                                        y: (parent.height - height) * 0.5
+                                        x: 10
+                                        text: modelData.label
+                                        font.pixelSize: Metrics.fontSize(14)
+                                        font.bold: true
+                                        opacity: modelData.header ? 1 : 0
+                                    }
+
+                                }
+
                                 Rectangle {
                                     anchors.fill: parent
                                     visible: !modelData.header
