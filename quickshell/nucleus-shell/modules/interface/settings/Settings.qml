@@ -143,7 +143,11 @@ Scope {
                                         anchors.leftMargin: 10
                                         spacing: 10
 
-                                        MaterialSymbol { icon: modelData.icon || "" }
+                                        MaterialSymbol {
+                                            visible: !modelData.header
+                                            icon: modelData.icon ? modelData.icon : ""
+                                            iconSize: Metrics.iconSize(24)
+                                        }
 
                                         StyledText {
                                             text: modelData.label
