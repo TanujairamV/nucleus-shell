@@ -6,55 +6,23 @@ import qs.config
 import qs.modules.components
 
 Item {
-    property bool isHorizontal: (Config.runtime.bar.position === "top" || Config.runtime.bar.position === "bottom")
+    property bool isHorizontal:
+        Config.runtime.bar.position === "top"
+        || Config.runtime.bar.position === "bottom"
 
-    Row {
-        id: hCenterRow
+    property real sideMargin:
+        Config.runtime.bar.density * 0.3
 
-        visible: isHorizontal
-        anchors.centerIn: parent
-        spacing: Metrics.spacing(4)
-
-        SystemUsageModule {
-        }
-
-        MediaPlayerModule {
-        }
-
-        ActiveWindowModule {
-        }
-
-        ClockModule {
-        }
-
-        BatteryIndicatorModule {
-        }
-
-    }
+    property real edgeOffset:
+        Config.runtime.bar.density * 0.1
 
     RowLayout {
-        /* StyledText {
-            id: hGlyph
-            Layout.alignment: Qt.AlignLeft
-            Layout.rightMargin: Metrics.margin("small") - 4
-            font.pixelSize: Metrics.fontSize("huge") * 1.7
-            color: Globals.visiblility.sidebarLeft ? Appearance.m3colors.m3error : Appearance.syntaxHighlightingTheme
-            text: "✦"
-
-            MouseArea {
-                id: ma
-                anchors.fill: parent
-                onClicked: Globals.visiblility.sidebarLeft = !Globals.visiblility.sidebarLeft
-            }
-        } */
-
         id: hLeftRow
-
         visible: isHorizontal
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
+        anchors.leftMargin: sideMargin
         spacing: Metrics.spacing(4)
-        anchors.leftMargin: Config.runtime.bar.density * 0.3
 
         ToggleModule {
             icon: "menu"
@@ -64,40 +32,45 @@ Item {
             onToggled: Globals.visiblility.sidebarLeft = value
         }
 
-        WorkspaceModule {
-        }
+        WorkspaceModule { }
+    }
 
+    RowLayout {
+        id: hCenterRow
+        visible: isHorizontal
+        anchors.centerIn: parent
+        spacing: Metrics.spacing(4)
+
+        SystemUsageModule { }
+        MediaPlayerModule { }
+        ActiveWindowModule { }
+        ClockModule { }
+        BatteryIndicatorModule { }
     }
 
     RowLayout {
         id: hRightRow
-
         visible: isHorizontal
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
+        anchors.rightMargin: sideMargin
         spacing: Metrics.spacing(4)
-        anchors.rightMargin: Config.runtime.bar.density * 0.3
 
-        SystemTray {
-            id: sysTray
-        }
+        SystemTray { id: sysTray }
 
         StyledText {
-            id: seperator
-
-            visible: (sysTray.items.count > 0) && Config.runtime.bar.modules.statusIcons.enabled
-            Layout.alignment: Qt.AlignLeft
+            visible: sysTray.items.count > 0
+                     && Config.runtime.bar.modules.statusIcons.enabled
             font.pixelSize: Metrics.fontSize("hugeass")
             text: "·"
         }
 
         StatusIconsModule {
+            id: statusIcons
         }
 
         StyledText {
-            id: seperator2
-
-            Layout.alignment: Qt.AlignLeft
+            visible: statusIcons.visible
             font.pixelSize: Metrics.fontSize("hugeass")
             text: "·"
         }
@@ -109,21 +82,18 @@ Item {
             toggle: Globals.visiblility.powermenu
             onToggled: Globals.visiblility.powermenu = value
         }
-
     }
 
-    // Vertical Layout
     Item {
         visible: !isHorizontal
         anchors.top: parent.top
-        anchors.topMargin: Config.runtime.bar.density * 0.1
+        anchors.topMargin: edgeOffset
         anchors.horizontalCenter: parent.horizontalCenter
-        implicitWidth: vRow.implicitHeight
-        implicitHeight: vRow.implicitWidth
+        implicitWidth: vTopRow.implicitHeight
+        implicitHeight: vTopRow.implicitWidth
 
         Row {
-            id: vRow
-
+            id: vTopRow
             anchors.centerIn: parent
             spacing: Metrics.spacing(8)
             rotation: 90
@@ -137,64 +107,44 @@ Item {
                 onToggled: Globals.visiblility.sidebarLeft = value
             }
 
-            SystemUsageModule {
-            }
-
-            MediaPlayerModule {
-            }
-
-            SystemTray {
-                rotation: 0
-            }
-
+            SystemUsageModule { }
+            MediaPlayerModule { }
+            SystemTray { }
         }
-
     }
 
     Item {
         visible: !isHorizontal
         anchors.centerIn: parent
-        anchors.verticalCenterOffset: 35
-        implicitWidth: centerRow.implicitHeight
-        implicitHeight: centerRow.implicitWidth
+        implicitWidth: vCenterRow.implicitHeight
+        implicitHeight: vCenterRow.implicitWidth
 
         Row {
-            id: centerRow
-
+            id: vCenterRow
             anchors.centerIn: parent
+            rotation: 90
 
-            WorkspaceModule {
-                rotation: 90
-            }
-
+            WorkspaceModule { }
         }
-
     }
 
     Item {
         visible: !isHorizontal
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: Config.runtime.bar.density * 0.1
+        anchors.bottomMargin: edgeOffset
         anchors.horizontalCenter: parent.horizontalCenter
-        implicitWidth: row.implicitHeight
-        implicitHeight: row.implicitWidth
+        implicitWidth: vBottomRow.implicitHeight
+        implicitHeight: vBottomRow.implicitWidth
 
         Row {
-            id: row
-
+            id: vBottomRow
             anchors.centerIn: parent
             spacing: Metrics.spacing(6)
             rotation: 90
 
-            ClockModule {
-                rotation: 270
-            }
-
-            StatusIconsModule {
-            }
-
-            BatteryIndicatorModule {
-            }
+            ClockModule { rotation: 270 }
+            StatusIconsModule { }
+            BatteryIndicatorModule { }
 
             ToggleModule {
                 icon: "power_settings_new"
@@ -204,9 +154,6 @@ Item {
                 rotation: 270
                 onToggled: Globals.visiblility.powermenu = value
             }
-
         }
-
     }
-
 }
