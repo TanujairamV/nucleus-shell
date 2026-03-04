@@ -160,7 +160,7 @@ Contributions are welcome. When contributing:
 
 <h2 align="center">✦ Maintainer ✦</h2>
 
-- Maintainer: xZepyx (Aditya Yadav) 
+- Maintainer: xZepyx 
 - Contact: [zepyxunderscore@gmail.com](mailto:zepyxunderscore@gmail.com)
 
 ---
